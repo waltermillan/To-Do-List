@@ -1,0 +1,56 @@
+Se crea la solución con los tres proyectos: Core, infrastructure y Api
+
+Este archivo indica los paquetes nuget a instalar por cada proyecto para poder trabajar con Entity Framework y los patrones de diseño: Repository UnitOfWork y DTO
+
+solucion: <Name>
+proyectos: API, Core, Infrastructure e Services
+dependencias:
+
+API: tiene dependencias con Core y Services
+Infrastructure: tiene dependencias con Core
+Services: tiene dependencias con Core
+API: tiene dependencias con Infrastructure
+
+API:
+
+	- Automapper
+	- Microsoft.AspNetCore.OpenApi *
+	- Microsoft.EntityFrameworkCore.Design
+	- Swashbuckle.AspNetCore /*herramienta para generar/documentar automáticamente APIs RESTful usando Swagger*/
+	
+Infrastructure
+
+	- Microsoft.EntityFrameworkCore
+	- Microsoft.EntityFrameworkCore.Design
+	- Microsoft.EntityFrameworkCore.SqlServer **
+	- Microsoft.EntityFrameworkCore.Tools
+
+* ya esta instalado por default
+** puede variar dependiendo de que motor de base de datos queremos usar
+
+https://learn.microsoft.com/es-es/ef/core/providers/?tabs=dotnet-core-cli
+
+Core:
+
+	- Ninguna
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+API:
+
+	Controllers
+	Extensions
+	Helpers
+	
+Core:
+
+	Entities
+	Interfaces
+	
+Infrastructure:
+
+	Data
+	Repositories
+	UnitOfWork
+	
+No olvidar modificar lauchSettings.json

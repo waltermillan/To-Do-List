@@ -1,0 +1,24 @@
+nav {
+  background-color: #4CAF50;
+  padding: 15px;
+  display: flex; /* Usamos flexbox para distribuir los enlaces */
+  justify-content: space-around; /* Distribuye el espacio entre los enlaces */
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  flex: 1; /* Hace que cada enlace ocupe un mismo ancho */
+  text-align: center; /* Centra el texto dentro del enlace */
+  margin: 0; /* Elimina el margen adicional que puede haber entre los elementos */
+}
+
+nav a:hover {
+  background-color: #45a049;
+  border-radius: 5px;
+}
+
+nav a.active {
+  background-color: #333;
+}

@@ -1,0 +1,24 @@
+<div class="todo-list">
+    <h1>Lista de Tareas archivadas</h1>
+  
+    <!-- Tabla que organiza la presentación de cada tarea con los botones -->
+    <table *ngIf="tasks.length > 0"  class="task-table">
+      <thead>
+        <tr>
+          <th>Nombre de la tarea</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks; let i = index" class="todo-item">
+          <!-- Columna para el nombre de la tarea (90%) -->
+          <td style="width: 85%;">{{ task.name }}</td>
+          <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%;">{{ getStateName(task.stateId )}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
