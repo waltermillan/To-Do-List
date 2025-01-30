@@ -17,5 +17,7 @@ namespace Core.Entities
         public DateTime InitialDate { get; set; }
         [Column("finish_date")]
         public DateTime FinishDate { get; set; }
+        [Column("done")]
+        public bool? Done { get; set; }
     }
 }

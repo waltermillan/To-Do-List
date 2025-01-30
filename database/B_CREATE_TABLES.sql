@@ -25,6 +25,7 @@ CREATE TABLE [dbo].[Task](
 	[state_id] [int] NULL,
 	[initial_date] [datetime] NULL,
 	[finish_date] [datetime] NULL,
+	[done] [bit] NULL,
  CONSTRAINT [PK_Task] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/task.service';  // Importa el servicio TaskService
+import { Task } from '../models/task.model';
 
 @Component({
   selector: 'app-archived-task',
@@ -8,7 +9,7 @@ import { TaskService } from '../services/task.service';  // Importa el servicio 
 })
 export class ArchivedTaskComponent implements OnInit {
 
-  tasks: { name: string, completed: boolean, id: number, stateId: number, initialDate: string, finishDate: string }[] = [];
+  tasks:Task[] = [];
   newTaskName: string = '';  // Variable para almacenar el nombre de la nueva tarea
   startDate: string = '';    // Variable para almacenar la fecha de inicio
   endDate: string = '';      // Variable para almacenar la fecha de fin
@@ -21,27 +22,30 @@ export class ArchivedTaskComponent implements OnInit {
 
   // Método para cargar las tareas desde la API
   loadTasks(): void {
-    this.taskService.getAllTasks().subscribe(
-      (data) => {
-        this.tasks = data.filter(t => t.stateId == 3);  // Asigna las tareas obtenidas desde la API a la variable 'tasks'
+    this.taskService.getAllTasks().subscribe({
+      next: (data) => {
+        this.tasks = data.filter(t => t.stateId == 3);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al obtener tareas:', error);
+      },
+      complete: () => {
+        console.log('La carga de tareas ha finalizado');
       }
-    );
+    });
   }
 
   // Método para eliminar una tarea
-  deleteTask(taskId: number): void {
-    this.taskService.deleteTask(taskId).subscribe(
-      (response) => {
-        console.log('Tarea eliminada con éxito', response);
+  deleteTask(taskId:number):void{
+    this.taskService.deleteTask(taskId).subscribe({
+      next: (data) => {
+        console.log('Tarea eliminada con éxito', data);
         this.loadTasks();  // Recargar las tareas después de eliminar una
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al eliminar tarea:', error);
       }
-    );
+    });
   }
 
   // Función para convertir el stateId en una cadena
@@ -56,5 +60,10 @@ export class ArchivedTaskComponent implements OnInit {
       default:
         return 'Desconocido';  // En caso de que haya un estado desconocido
     }
+  }
+
+  getDoneState(done:boolean):string
+  {
+    return (done == true) ? "SI" : "NO";
   }
 }

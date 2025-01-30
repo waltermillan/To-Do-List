@@ -5,5 +5,6 @@ export interface Task {
     stateId: number;
     initialDate: string;
     finishDate: string;
+    done: boolean;
   }
   

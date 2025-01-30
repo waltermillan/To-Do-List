@@ -10,10 +10,10 @@ INSERT INTO [dbo].[State]([Id],[name]) VALUES('3','Archived')
 
 --DMLS Tabla Task:
 
-INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Llamar primos',1,'2025-01-26 01:46:00.000','2025-02-02 01:46:00.000')
-INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Salir a correr #1',1,'2025-01-26 01:46:00.000','2025-02-02 01:47:00.000')
-INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Salir a correr #2',1,'2025-01-26 01:47:00.000','2025-02-02 01:47:00.000')
-INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Corte pelo',1,'2025-01-26 01:47:00.000','2025-02-02 01:47:00.000')
+INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Llamar primos',1,'2025-01-26 01:46:00.000','2025-02-02 01:46:00.000', NULL)
+INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Salir a correr #1',1,'2025-01-26 01:46:00.000','2025-02-02 01:47:00.000', NULL)
+INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Salir a correr #2',1,'2025-01-26 01:47:00.000','2025-02-02 01:47:00.000', NULL)
+INSERT INTO [dbo].[Task]([name],[state_id],[initial_date],[finish_date]) VALUES('Corte pelo',1,'2025-01-26 01:47:00.000','2025-02-02 01:47:00.000', NULL)
 
 --DMLS Tabla TaskHistory:
 

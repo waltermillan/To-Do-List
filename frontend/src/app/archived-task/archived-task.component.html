@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th>Nombre de la tarea</th>
+          <th>Realizada</th>
           <th>Inicio</th>
           <th>Fin</th>
           <th>Estado</th>
@@ -14,10 +15,11 @@
       <tbody>
         <tr *ngFor="let task of tasks; let i = index" class="todo-item">
           <!-- Columna para el nombre de la tarea (90%) -->
-          <td style="width: 85%;">{{ task.name }}</td>
-          <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 5%;">{{ getStateName(task.stateId )}}</td>
+          <td style="width: 80%;">{{ task.name }}</td>
+          <td style="width: 5%;text-align: center;">{{ getDoneState(task.done) }}</td>
+          <td style="width: 5%;text-align: center;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%;text-align: center;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%;text-align: center;">{{ getStateName(task.stateId )}}</td>
         </tr>
       </tbody>
     </table>
