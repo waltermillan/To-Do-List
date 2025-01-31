@@ -1,31 +1,41 @@
 using API.Extensions;
+using Core.Interfases;
+using Infrastructure.Configuration;
 using Infrastructure.Data;
+using Infrastructure.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configurar AutoMapper
 builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
 
-// Add services to the container.
+// Cargar la configuración en AppConfig
+var appConfig = AppConfig.GetInstance();
+appConfig.ConnectionString = builder.Configuration.GetConnectionString("Connection");
+
+// Agregar servicios al contenedor
 builder.Services.ConfigureCors();
 builder.Services.AddAplicacionServices();
-
 builder.Services.AddControllers();
 
+// Registrar DbContext con la cadena de conexión desde AppConfig
 builder.Services.AddDbContext<Context>(options =>
 {
-    string connectionString = builder.Configuration.GetConnectionString("Connection");
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(appConfig.ConnectionString); // Usamos la cadena de conexión desde AppConfig
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Registrar UnitOfWork en el contenedor de dependencias
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Configurar Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurar el pipeline de solicitud HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
