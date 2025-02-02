@@ -67,10 +67,10 @@ namespace Tests.UnitTests
             var stateService = new StateService(mockStateRepository.Object);
 
             // act
-            stateService.AddState(state);
+            stateService.AddState(state.Name);
 
             // assert
-            mockStateRepository.Verify(repo => repo.Add(It.Is<State>(c => c.Name == "State1" && c.Id == 9)), Times.Once);
+            mockStateRepository.Verify(repo => repo.Add(It.Is<State>(c => c.Name == "State1")), Times.Once);
         }
 
         [Fact]

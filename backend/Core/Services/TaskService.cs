@@ -2,6 +2,8 @@
 using Core.Interfases;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Xml.Linq;
+using TaskEntity = Core.Entities.Task;
 
 namespace Core.Services;
 
@@ -28,8 +30,12 @@ public class TaskService
         return await _taskRepository.GetAllAsync();
     }
 
-    public void AddTask(Core.Entities.Task task) 
-    { 
+    public void AddTask(string name, int stateId, DateTime initialDate, DateTime finishDate, bool? done = null)
+    {
+        // Usamos el TaskFactory para crear la tarea
+        var task = Core.Factories.TaskFactory.CreateTask(name, stateId, initialDate, finishDate, done);
+
+        // Ahora agregamos la tarea usando el repositorio
         _taskRepository.Add(task);
     }
 

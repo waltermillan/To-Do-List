@@ -1,12 +1,13 @@
-﻿namespace Infrastructure.Configuration;
+﻿
+namespace Infrastructure.Configuration;
 
 public class AppConfig
 {
-    private static AppConfig _instance;
-    private static readonly object _lock = new object();
+    private static AppConfig? _instance;
+    private static readonly Lock _lock = new Lock();
 
     // Propiedades de configuración global
-    public string ConnectionString { get; set; }
+    public string? ConnectionString { get; set; }
 
     // Constructor privado para evitar la instanciación externa
     private AppConfig() { }

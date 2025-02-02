@@ -54,18 +54,19 @@ public class TaskServiceTests
     public void AddTask_AddsTask_WhenCountryIsValid()
     {
         // arrange
-        var mockTaskRepository = new Mock<ITaskRepository>();
-        var task = new Core.Entities.Task { Id = 9, Name = "Task1" };
+        var mockTaskRepository = new Mock<ITaskRepository >();
+        DateTime now = DateTime.Now;
+        var task = new Core.Entities.Task { Id = 9, Name = "Task1", StateId = 1, FinishDate = now, InitialDate = now, Done = false };
 
         mockTaskRepository.Setup(repo => repo.Add(It.IsAny<Core.Entities.Task>()));
 
         var taskService = new TaskService(mockTaskRepository.Object);
 
         // act
-        taskService.AddTask(task);
+        taskService.AddTask(task.Name, task.StateId, task.InitialDate, task.FinishDate, task.Done);
 
         // assert
-        mockTaskRepository.Verify(repo => repo.Add(It.Is<Core.Entities.Task>(c => c.Name == "Task1" && c.Id == 9)), Times.Once);
+        mockTaskRepository.Verify(repo => repo.Add(It.Is<Core.Entities.Task>(c => c.Name == "Task1" && c.StateId == 1 && c.FinishDate == now && c.InitialDate == now && c.Done == false)), Times.Once);
     }
 
     [Fact]

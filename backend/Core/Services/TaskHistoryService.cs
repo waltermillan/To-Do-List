@@ -2,6 +2,7 @@
 using Core.Interfases;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Xml.Linq;
 
 namespace Core.Services;
 
@@ -28,8 +29,11 @@ public class TaskHistoryService
         return await _taskHistoryRepository.GetAllAsync();
     }
 
-    public void AddTaskHistory(TaskHistory taskHistory) 
+    public void AddTaskHistory(int id, int taskId, int stateId, DateTime changedDate) 
     {
+        var taskHistory = Core.Factories.TaskHistoryFactory.CreateTaskHistory(id, taskId, stateId, changedDate);
+
+        // Ahora agregamos la tarea usando el repositorio
         _taskHistoryRepository.Add(taskHistory);
     }
 

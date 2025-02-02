@@ -62,7 +62,7 @@ public class TaskHistoryServiceTests
         var taskHistoryService = new TaskHistoryService(mockTaskHistoryRepository.Object);
 
         // act
-        taskHistoryService.AddTaskHistory(taskHistory);
+        taskHistoryService.AddTaskHistory(taskHistory.Id, taskHistory.TaskId, taskHistory.StateId, taskHistory.ChangedDate);
 
         // assert
         mockTaskHistoryRepository.Verify(repo => repo.Add(It.Is<TaskHistory>(c => c.Id == 9)), Times.Once);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Core.Services;
 
@@ -32,8 +33,12 @@ public class StateService
         return await _stateRepository.GetAllAsync();
     }
 
-    public void AddState(State state)
+    public void AddState(string name)
     {
+        // Usamos el TaskFactory para crear el estado
+        var state = Core.Factories.StateFactory.CreateState(name);
+
+        // Ahora agregamos la tarea usando el repositorio
         _stateRepository.Add(state);
     }
 
