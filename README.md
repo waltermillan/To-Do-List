@@ -12,18 +12,23 @@ Utilizar una API para traductir voz a texto: Específicamente la Web Speech API.
 BACKEND:
 - Arquitectura Onion.
 - Principios SOLID.
-- Diseño de patrones: Repository, UnitOfWork. en versiones futuras la idea es agregar los patrones de diseño: Singleton: Para manejar la configuración del backend. Factory: Para crear las instancias de tareas y Observer: Para escuchar cambios en las tareas.
-
+- Uso de Entity Framework.
+- Diseño de patrones: Repository (Para acceder a la DB de tareas), UnitOfWork, Singleton (Para manejar la configuración del backend) y Factory (Para crear las instancias de tareas).
+  
 FRONTEND:
 - Desarrollado con Angular 18.0.2
 - Orientado a módulos.
 - Creación de servicios y modelos.
+- Se agrega la invocación a Web Speech API (la cual permite incorporar datos de voz a las aplicaciones web?
 
-BBDD (SQL Server)
-- Diagrama de ER Escrito con SQL Server
+BBDD:
+- Diagrama de Entidad-Relación Escrito con SQL Server.
 - Tablas (DDLs) y Datos (DMLs).
 
 ## Instalación
+
+Fecha Inicio: 28/01/2025
+Fecha Final: 03/02/2025
 
 1. Clona el repositorio:
 
