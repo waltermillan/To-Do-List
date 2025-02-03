@@ -24,3 +24,8 @@
       </tbody>
     </table>
 </div>
+
+      <!-- Mostrar el mensaje cuando no hay tareas -->
+      <div *ngIf="tasks.length === 0" class="no-tasks-message">
+        No hay tareas disponibles
+    </div>

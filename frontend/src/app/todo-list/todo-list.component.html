@@ -1,82 +1,130 @@
 <div class="todo-list">
-    <h1>Lista de Tareas</h1>
-  
-    <!-- Formulario para agregar tareas -->
-    <div class="add-task">
-      <input [(ngModel)]="newTaskName" type="text" placeholder="Ingrese una nueva tarea" required #taskname="ngModel" />
-      <div title="campo obligatorio" [hidden]="taskname.valid || taskname.pristine">
-        *
-      </div>
+  <h1>Lista de Tareas</h1>
 
-      <!-- Campo de fecha de inicio -->
-      <input [(ngModel)]="startDate" type="datetime-local" placeholder="Fecha de inicio" style="width:50%"  />
+  <!-- Formulario para agregar tareas -->
+  <div class="add-task">
+    <input 
+      [(ngModel)]="newTaskName" 
+      type="text" 
+      placeholder="Ingrese una nueva tarea" 
+      required 
+      #taskname="ngModel" />
       
-      <!-- Campo de fecha de fin -->
-      <input [(ngModel)]="endDate" type="datetime-local" placeholder="Fecha de fin"  style="width:50%"/>
-      
-      <button #BtnAddTask (click)="addTask()" class="btn btn-primary">Agregar tarea</button>
-    </div>
+      <img 
+        [src]="isRecognizing ? 'assets/images/microphone.svg' : 'assets/images/mute.svg'" 
+        alt="Micrófono" 
+        (click)="toggleRecognition()" 
+        class="mic-icon" />    
 
-      <!-- Mostrar el mensaje cuando no hay tareas -->
-    <div *ngIf="tasks.length === 0" class="no-tasks-message">
-        No hay tareas disponibles
-    </div>
-  
-    <!-- Tabla que organiza la presentación de cada tarea con los botones -->
-    <table *ngIf="tasks.length > 0"  class="task-table">
-      <thead>
-        <tr>
-          <th>Nombre de la tarea</th>
-          <th>Inicio</th>
-          <th>Fin</th>
-          <th>Estado</th>
-          <th>Realizada</th>
-          <th colspan="4">Cambiar Estado tarea</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let task of tasks; let i = index" class="todo-item">
-          <!-- Columna para el nombre de la tarea (90%) -->
-          <td style="width: 60%;">{{ task.name }}</td>
-          <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 5%;">{{ getStateName(task.stateId )}}</td>
 
-          <td style="width: 5%;text-align: center;">
-            <input 
-              type="checkbox" 
-              [checked]="task.done" 
-              (change)="onCheckboxChange($event, task)" />
-          </td>
+    <!-- Campo de fecha de inicio -->
+    <input 
+      [(ngModel)]="startDate" 
+      type="datetime-local" 
+      placeholder="Fecha de inicio" 
+      style="width:50%" />
 
-          <!-- Columna para el botón de pendiente -->
-          <td style="width: 5%;text-align: center;">
-            <button #BtnUpdateTaskToPending *ngIf="task.stateId !== 1" (click)="updateTaskState(1, task.id)" class="image-button">
-              <img src="assets/images/pending.svg" alt="Marcar tarea como pendiente" title="Marcar tarea como pendiente" />
-            </button>
-          </td>
-          
-          <!-- Columna para el botón de completada -->
-          <td style="width: 5%;text-align: center;">
-            <button #BtnUpdateTaskToComplete *ngIf="task.stateId !== 2" (click)="updateTaskState(2, task.id)" class="image-button">
-              <img src="assets/images/mark-as-complete.svg" alt="Marcar tarea como completada" title="Marcar tarea como completada" />
-            </button>
-          </td>
+    <!-- Campo de fecha de fin -->
+    <input 
+      [(ngModel)]="endDate" 
+      type="datetime-local" 
+      placeholder="Fecha de fin" 
+      style="width:50%" />
 
-          <!-- Columna para el botón de archivada -->
-          <td style="width: 5%;text-align: center;">
-            <button #BtnUpdateTaskToArchived *ngIf="task.stateId === 2" (click)="updateTaskState(3, task.id)" class="image-button">
-              <img src="assets/images/archived.svg" alt="Marcar tarea como archivada" title="Marcar tarea como archivada" />
-            </button>
-          </td>
-  
-          <!-- Columna para el botón de eliminar tarea -->
-          <td style="width: 5%;text-align: center;">
-            <button #BtnDeleteTask (click)="deleteTask(task.id)" class="image-button">
-              <img src="assets/images/delete-task.svg" alt="Eliminar tarea" title="Eliminar tarea" />
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Botón para agregar tarea -->
+    <button 
+      #BtnAddTask 
+      (click)="addTask()" 
+      class="btn btn-primary">Agregar tarea</button>
+  </div>
+
+  <!-- Mostrar el mensaje cuando no hay tareas -->
+  <div *ngIf="tasks.length === 0" class="no-tasks-message">
+    No hay tareas disponibles
+  </div>
+
+  <!-- Tabla que organiza la presentación de cada tarea con los botones -->
+  <table *ngIf="tasks.length > 0" class="task-table">
+    <thead>
+      <tr>
+        <th>Nombre de la tarea</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Estado</th>
+        <th>Realizada</th>
+        <th colspan="4">Cambiar Estado tarea</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks; let i = index" class="todo-item">
+        <!-- Columna para el nombre de la tarea (90%) -->
+        <td style="width: 60%;">{{ task.name }}</td>
+        <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
+        <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
+        <td style="width: 5%;">{{ getStateName(task.stateId) }}</td>
+
+        <td style="width: 5%;text-align: center;">
+          <input 
+            type="checkbox" 
+            [checked]="task.done" 
+            (change)="onCheckboxChange($event, task)" />
+        </td>
+
+        <!-- Columna para el botón de pendiente -->
+        <td style="width: 5%;text-align: center;">
+          <button 
+            #BtnUpdateTaskToPending 
+            *ngIf="task.stateId !== 1" 
+            (click)="updateTaskState(1, task.id)" 
+            class="image-button">
+            <img 
+              src="assets/images/pending.svg" 
+              alt="Marcar tarea como pendiente" 
+              title="Marcar tarea como pendiente" />
+          </button>
+        </td>
+
+        <!-- Columna para el botón de completada -->
+        <td style="width: 5%;text-align: center;">
+          <button 
+            #BtnUpdateTaskToComplete 
+            *ngIf="task.stateId !== 2" 
+            (click)="updateTaskState(2, task.id)" 
+            class="image-button">
+            <img 
+              src="assets/images/mark-as-complete.svg" 
+              alt="Marcar tarea como completada" 
+              title="Marcar tarea como completada" />
+          </button>
+        </td>
+
+        <!-- Columna para el botón de archivada -->
+        <td style="width: 5%;text-align: center;">
+          <button 
+            #BtnUpdateTaskToArchived 
+            *ngIf="task.stateId === 2" 
+            (click)="updateTaskState(3, task.id)" 
+            class="image-button">
+            <img 
+              src="assets/images/archived.svg" 
+              alt="Marcar tarea como archivada" 
+              title="Marcar tarea como archivada" />
+          </button>
+        </td>
+
+        <!-- Columna para el botón de eliminar tarea -->
+        <td style="width: 5%;text-align: center;">
+          <button 
+            #BtnDeleteTask 
+            (click)="deleteTask(task.id)" 
+            class="image-button">
+            <img 
+              src="assets/images/delete-task.svg" 
+              alt="Eliminar tarea" 
+              title="Eliminar tarea" />
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -9,13 +9,15 @@ import { Task } from '../models/task.model';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-
-  tasks:Task[] = [];
-  
+  tasks: Task[] = [];
   newTaskName: string = '';  // Variable para almacenar el nombre de la nueva tarea
   startDate: string = '';    // Variable para almacenar la fecha de inicio
   endDate: string = '';      // Variable para almacenar la fecha de fin
   done: boolean = false;
+
+  recognition: any;
+  isRecognizing = false; // Indicador de si está reconociendo
+  errorMessage: string | null = null;  // Mensaje de error para mostrar en la UI
 
   constructor(
     private taskService: TaskService, 
@@ -24,6 +26,7 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTasks();
+    this.setupRecognition();  // Configurar el reconocimiento de voz
   }
 
   // Método para cargar las tareas desde la API
@@ -76,7 +79,7 @@ export class TodoListComponent implements OnInit {
         error: (error) => {
           console.error('Error al agregar tarea:', error);
         }
-        });
+      });
     }
   }
 
@@ -90,7 +93,7 @@ export class TodoListComponent implements OnInit {
       error: (error) => {
         console.error('Error al eliminar tarea:', error);
       }
-  });
+    });
   }
 
   // Método para actualizar el estado de la tarea y archivarla
@@ -107,22 +110,19 @@ export class TodoListComponent implements OnInit {
         done: taskToUpdate.done
       };
 
-      // Llamar a la API para actualizar la tarea
       this.taskService.updateTask(updatedTask).subscribe({
         next: (data) => {
           console.log('Tarea actualizada con éxito', data);
-          this.loadTasks();  // Recargar las tareas después de la actualización
+          this.loadTasks();
 
-          // Si la tarea ha sido archivada, guardamos la acción en TaskHistory
           if (newStateId === 3) {
             const taskHistory = {
-              id: 0,  // Se puede dejar en 0 si se auto-genera en la base de datos
+              id: 0,
               taskId: taskId,
               stateId: 3,  // Archivado
               changedDate: new Date().toISOString(),
             };
 
-            // Llamar a la API para guardar la tarea archivada
             this.historyTaskService.archiveTask(taskHistory).subscribe({
               next: (historyResponse) => {
                 console.log('Tarea archivada con éxito en TaskHistory', historyResponse);
@@ -130,13 +130,13 @@ export class TodoListComponent implements OnInit {
               error: (error) => {
                 console.error('Error al archivar tarea en TaskHistory:', error);
               }
-          });
+            });
           }
         },
         error: (error) => {
           console.error('Error al actualizar tarea:', error);
         }
-    });
+      });
     }
   }
 
@@ -150,26 +150,83 @@ export class TodoListComponent implements OnInit {
       case 3:
         return 'Archivada';
       default:
-        return 'Desconocido';  // En caso de que haya un estado desconocido
+        return 'Desconocido';
     }
   }
 
+  // Método de cambio de estado al marcar la tarea como realizada
   onCheckboxChange(event: Event, task: any) {
     const updatedTask = { 
-      ...task, // Conserva todas las propiedades de la tarea
-      done: (event.target as HTMLInputElement).checked  // Actualiza el estado 'done'
+      ...task, 
+      done: (event.target as HTMLInputElement).checked 
     };
-  
-    // Llamar al servicio para actualizar la tarea
+
     this.taskService.updateTask(updatedTask).subscribe({
       next: (response) => {
         console.log('Tarea actualizada con éxito', response);
-        this.loadTasks();  // Recargar las tareas después de la actualización
+        this.loadTasks();
       },
       error: (error) => {
         console.error('Error al actualizar tarea:', error);
       }
-  });
+    });
   }
-  
+
+  // Configuración del reconocimiento de voz
+  setupRecognition(): void {
+    if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+      this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      this.recognition.lang = 'es-ES';
+      this.recognition.continuous = false;
+      this.recognition.interimResults = false;
+
+      this.recognition.onresult = (event: any) => {
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript + ' ';
+          }
+        }
+        console.log('Texto final transcrito:', finalTranscript);
+        this.newTaskName = finalTranscript.trim();  // Actualiza el texto
+      };
+
+      this.recognition.onerror = (event: any) => {
+        this.errorMessage = `Error: ${event.error}`;
+        this.isRecognizing = false;
+      };
+
+      this.recognition.onend = () => {
+        console.log('Reconocimiento detenido.');
+        this.isRecognizing = false;
+      };
+    } else {
+      this.errorMessage = 'La API de reconocimiento de voz no está soportada en este navegador.';
+    }
+  }
+
+  // Alterna el estado de reconocimiento de voz
+  toggleRecognition(): void {
+    if (this.isRecognizing) {
+      this.stopRecognition();
+    } else {
+      this.startRecognition();
+    }
+  }
+
+  startRecognition(): void {
+    this.isRecognizing = true;
+    this.recognition.start();
+    this.errorMessage = null;
+    console.log('Iniciando grabación...');
+  }
+
+  stopRecognition(): void {
+    if (this.isRecognizing) {
+      this.recognition.stop();
+      console.log('Deteniendo grabación...');
+      this.isRecognizing = false;
+    }
+  }
 }
