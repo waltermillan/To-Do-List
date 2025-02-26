@@ -7,30 +7,31 @@ import { Observable } from 'rxjs';
 })
 export class TaskService {
 
-  private apiUrl = 'http://localhost:5184/api/Task/GetAll';  // URL para obtener todas las tareas
-  private addTaskUrl = 'http://localhost:5184/api/Task/Add';  // URL para agregar tareas
-  private deleteTaskUrl = 'http://localhost:5184/api/Task/Delete';  // URL para eliminar tareas
-  private updateTaskUrl = 'http://localhost:5184/api/Task/Update';
+  private apiUrl = 'http://localhost:5184/api/Tasks/';
 
   constructor(private http: HttpClient) { }
 
   // Método para obtener todas las tareas
   getAllTasks(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    const url = this.apiUrl;
+    return this.http.get<any[]>(url);
   }
 
   // Método para agregar una nueva tarea
   addTask(task: { name: string, stateId: number, initialDate: string, finishDate: string }): Observable<any> {
-    return this.http.post<any>(this.addTaskUrl, task);
+    const url = this.apiUrl;
+    return this.http.post<any>(url, task);
   }
 
   // Método para eliminar una tarea
   deleteTask(taskId: number): Observable<any> {
-    return this.http.delete<any>(`${this.deleteTaskUrl}/${taskId}`);
+    const url = `${this.apiUrl }${taskId}`;
+    return this.http.delete<any>(url);
   }
 
   // Método para actualizar una tarea
-  updateTask(task: any): Observable<any> {
-    return this.http.put(this.updateTaskUrl, task);
+  updateTask(task: any, id:number): Observable<any> {
+    const url = this.apiUrl + id;
+    return this.http.put(url, task);
   }
 }

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using TaskEntity = Core.Entities.Task;
 
 namespace API.Controllers;
-
+[ApiController]
+[Route("api/tasks")]
 public class TaskController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -22,7 +23,7 @@ public class TaskController : BaseApiController
     }
 
     // Método existente: obtener todas los paises
-    [HttpGet("GetAll")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<Core.Entities.Task>>> Get()
@@ -34,10 +35,8 @@ public class TaskController : BaseApiController
 
             foreach (var task in tasks)
             {
-                // mensaje de la busqueda realizada
                 message = $"Tasks Listed | Task ID: {task.Id} Task Name: {task.Name}\n";
 
-                // Logueamos la busqueda realizada
                 _loggingService.LogInformation(message);
             }
 
@@ -45,7 +44,6 @@ public class TaskController : BaseApiController
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the Task. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -54,7 +52,7 @@ public class TaskController : BaseApiController
     }
 
     // Método existente: obtener una tarea por su ID
-    [HttpGet("Get")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,17 +65,14 @@ public class TaskController : BaseApiController
             if (task == null)
                 return NotFound();
 
-            // mensaje de la busqueda realizada
             message = $"Task Listed | Task ID: {task.Id} Task Name: {task.Name}";
 
-            // Logueamos la busqueda realizada
             _loggingService.LogInformation(message);
 
             return _mapper.Map<Core.Entities.Task>(task);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the tasks. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -86,7 +81,7 @@ public class TaskController : BaseApiController
     }
 
     // Método existente: agregar una tarea
-    [HttpPost("Add")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Core.Entities.Task>> Post(Core.Entities.Task oTask)
@@ -94,35 +89,27 @@ public class TaskController : BaseApiController
         var message = string.Empty;
         try
         {
-            // Utilizamos el patron Factory (Task), para crear la tarea
             var task = Core.Factories.TaskFactory.CreateTask(oTask.Name, oTask.StateId, oTask.InitialDate, oTask.FinishDate, oTask.Done);
 
-            // Añadir la tarea creada usando el repositorio
             _unitOfWork.Tasks.Add(task);
             await _unitOfWork.SaveAsync();
 
-            // Verificamos si la tarea fue creada correctamente
             if (task == null)
             {
                 return BadRequest();
             }
 
-            // Asignamos el Id de la tarea para retornarlo correctamente
             oTask.Id = task.Id;
 
-            // mensaje del cambio realizado.
             message = $"Task Created | Task ID: {task.Id} Task Name: {task.Name}";
 
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
-            // Retornamos la tarea recién creada con un código de respuesta 201
             return CreatedAtAction(nameof(Post), new { id = oTask.Id }, oTask);
 
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the tasks. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -131,7 +118,7 @@ public class TaskController : BaseApiController
     }
 
     // Método existente: actualizar una tarea
-    [HttpPut("Update")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -143,30 +130,23 @@ public class TaskController : BaseApiController
             if (oTask == null)
                 return NotFound();
 
-            // Primero obtenemos la tarea de la base de datos, para asegurar que estamos actualizando la correcta
             var task = await _unitOfWork.Tasks.GetByIdAsync(oTask.Id);
             if (task == null)
                 return NotFound();
 
-            // mensaje del cambio realizado.
             message = $"Task Updated | Task ID: {task.Id} Task Name (old): {task.Name} Task Name (new): {oTask.Name} ";
 
-            // Utilizamos AutoMapper para mapear las propiedades de oTask a task
             _mapper.Map(oTask, task);  // Este paso asigna automáticamente las propiedades
 
-            // Llamamos al método Update del repositorio para guardar los cambios
             _unitOfWork.Tasks.Update(task);
             await _unitOfWork.SaveAsync();
 
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
-            // Retornamos la tarea actualizada
             return Ok(task);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue updating the task. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -176,7 +156,7 @@ public class TaskController : BaseApiController
 
 
     // Método existente: eliminar una tarea
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
@@ -191,16 +171,13 @@ public class TaskController : BaseApiController
             _unitOfWork.Tasks.Remove(task);
             await _unitOfWork.SaveAsync();
 
-            // mensaje del cambio realizado.
             message = $"Task Deleted | Task ID: {task.Id} Task Name: {task.Name}";
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
             return NoContent();
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the tasks. Please try again later.";
             _loggingService.LogError(message, ex);
 

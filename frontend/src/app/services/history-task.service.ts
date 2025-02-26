@@ -12,6 +12,6 @@ export class HistoryTaskService {
 
   // Método para agregar una tarea a TaskHistory
   archiveTask(taskHistory: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/TaskHistory/Add`, taskHistory);
+    return this.http.post(`${this.apiUrl}/TasksHistory`, taskHistory);
   }
 }

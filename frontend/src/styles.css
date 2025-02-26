@@ -9,3 +9,34 @@ body {
     height: 100vh; /* Asegura que ocupe todo el alto de la ventana */
     margin: 0; /* Elimina los márgenes por defecto */
   }
+
+  .styled-date-input {
+    width: 100%;
+    max-width: 300px; /* Ajusta el tamaño máximo según sea necesario */
+    padding: 10px;
+    border: 2px solid #007BFF; /* Bordes azules */
+    border-radius: 8px; /* Bordes redondeados */
+    font-size: 16px;
+    background-color: #f9f9f9; /* Fondo gris claro */
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .styled-date-input:focus {
+    border-color: #0056b3; /* Bordes azules más oscuros cuando se selecciona */
+    background-color: #e9f5ff; /* Fondo azul claro */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Sombra sutil al enfocar */
+  }
+  
+  .styled-date-input::-webkit-calendar-picker-indicator {
+    background-color: #007BFF; /* Color del selector de calendario */
+    border-radius: 50%; /* Hacer el selector redondo */
+  }
+  
+  .styled-date-input::-webkit-input-placeholder {
+    color: #aaa; /* Color de placeholder */
+  }
+  
+  .styled-date-input:disabled {
+    background-color: #ddd; /* Color de fondo para cuando está deshabilitado */
+    border-color: #bbb;
+  }

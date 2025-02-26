@@ -1,6 +1,27 @@
 <div class="todo-list">
     <h1>Lista de Tareas archivadas</h1>
   
+    <table *ngIf="tasks.length > 0"  class="task-table">
+      <div>
+          <!-- Campo de fecha de inicio -->
+          <input 
+            [(ngModel)]="startDate" 
+            type="date" 
+            placeholder="Fecha de inicio" 
+            style="width:25%" class="styled-date-input"/>
+
+          <!-- Campo de fecha de fin -->
+          <input 
+            [(ngModel)]="endDate" 
+            type="date" 
+            placeholder="Fecha de fin" 
+            style="width:25%" class="styled-date-input" />
+
+          <input class="btn btn-primary mt-2 filter-btn" type="button" value="Filtrar" (click)="filterData(startDate, endDate)"  style="margin-right: 10px;">
+          <input class="btn btn-primary mt-2 filter-btn" type="button" value="Limpiar" (click)="cleanData(startDate, endDate)">
+      </div>
+    </table>
+
     <!-- Tabla que organiza la presentación de cada tarea con los botones -->
     <table *ngIf="tasks.length > 0"  class="task-table">
       <thead>
@@ -23,7 +44,7 @@
         </tr>
       </tbody>
     </table>
-</div>
+      </div>
 
       <!-- Mostrar el mensaje cuando no hay tareas -->
       <div *ngIf="tasks.length === 0" class="no-tasks-message">

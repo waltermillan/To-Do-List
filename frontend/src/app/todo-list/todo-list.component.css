@@ -88,4 +88,22 @@ th {
     cursor: not-allowed;
   }
   
+  .mic-icon {
+    width: 20px;  /* Ajusta el tamaño de la imagen */
+    height: 20px; /* Ajusta el tamaño de la imagen */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .mic-icon:hover {
+    transform: scale(1.1); /* Efecto visual cuando pasas el ratón por encima */
+  }
+  
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
   

@@ -110,7 +110,7 @@ export class TodoListComponent implements OnInit {
         done: taskToUpdate.done
       };
 
-      this.taskService.updateTask(updatedTask).subscribe({
+      this.taskService.updateTask(updatedTask, updatedTask.id).subscribe({
         next: (data) => {
           console.log('Tarea actualizada con éxito', data);
           this.loadTasks();
@@ -161,7 +161,7 @@ export class TodoListComponent implements OnInit {
       done: (event.target as HTMLInputElement).checked 
     };
 
-    this.taskService.updateTask(updatedTask).subscribe({
+    this.taskService.updateTask(updatedTask, updatedTask.id).subscribe({
       next: (response) => {
         console.log('Tarea actualizada con éxito', response);
         this.loadTasks();

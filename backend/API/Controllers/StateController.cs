@@ -7,7 +7,8 @@ using System;
 using System.Threading.Tasks;
 
 namespace API.Controllers;
-
+[ApiController]
+[Route("api/states")]
 public class StateController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -22,7 +23,7 @@ public class StateController : BaseApiController
     }
 
     // Método existente: obtener todas los estados
-    [HttpGet("GetAll")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<State>>> Get()
@@ -34,10 +35,8 @@ public class StateController : BaseApiController
 
             foreach (var state in states)
             {
-                // mensaje de la busqueda realizada
                 message = $"States Listed | State ID: {state.Id} State Name: {state.Name}\n";
 
-                // Logueamos la busqueda realizada
                 _loggingService.LogInformation(message);
             }
 
@@ -45,7 +44,6 @@ public class StateController : BaseApiController
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the States. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -54,7 +52,7 @@ public class StateController : BaseApiController
     }
 
     // Método existente: obtener un estado por su ID
-    [HttpGet("Get")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,17 +65,14 @@ public class StateController : BaseApiController
             if (state == null)
                 return NotFound();
 
-            // mensaje de la busqueda realizada
             message = $"State Listed | State ID: {state.Id} State Name: {state.Name}";
 
-            // Logueamos la busqueda realizada
             _loggingService.LogInformation(message);
 
             return _mapper.Map<State>(state);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the State. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -86,7 +81,7 @@ public class StateController : BaseApiController
     }
 
     // Método existente: agregar un estado
-    [HttpPost("Add")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<State>> Post(State oState)
@@ -97,31 +92,24 @@ public class StateController : BaseApiController
             // Utilizamos el patron Factory (State) para crear la tarea
             var state = StateFactory.CreateState(oState.Name);
 
-            // Añadir el estado creada usando el repositorio
             _unitOfWork.States.Add(state);
             await _unitOfWork.SaveAsync();
 
-            // Verificamos si el estado fue creada correctamente
             if (state == null)
             {
                 return BadRequest();
             }
 
-            // Asignamos el Id de el estado para retornarlo correctamente
             oState.Id = state.Id;
 
-            // mensaje del cambio realizado.
             message = $"State Created | State ID: {state.Id} State Name: {state.Name}";
 
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
-            // Retornamos el estado recién creado con un código de respuesta 201
             return CreatedAtAction(nameof(Post), new { id = oState.Id }, oState);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the States. Please try again later.";
             _loggingService.LogError(message,ex);
 
@@ -130,7 +118,7 @@ public class StateController : BaseApiController
     }
 
     // Método existente: actualizar un estado
-    [HttpPut("Update")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -142,31 +130,23 @@ public class StateController : BaseApiController
             if (oState == null)
                 return NotFound();
 
-            // Primero obtenemos la tarea de la base de datos, para asegurar que estamos actualizando la correcta
             var state = await _unitOfWork.States.GetByIdAsync(oState.Id);
             if (state == null)
                 return NotFound();
 
-            // mensaje del cambio realizado.
             message = $"State Updated | State ID: {state.Id} State Name (old): {state.Name} State Name (new): {oState.Name} ";
 
-
-            // Utilizamos AutoMapper para mapear las propiedades de oState a state
             _mapper.Map(oState, state);  // Este paso asigna automáticamente las propiedades
 
-            // Llamamos al método Update del repositorio para guardar los cambios
             _unitOfWork.States.Update(state);
             await _unitOfWork.SaveAsync();
 
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
-            // Retornamos la tarea actualizada
             return Ok(state);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the States. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -175,7 +155,7 @@ public class StateController : BaseApiController
     }
 
     // Método existente: eliminar un estado
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
@@ -190,16 +170,13 @@ public class StateController : BaseApiController
             _unitOfWork.States.Remove(state);
             await _unitOfWork.SaveAsync();
 
-            // mensaje del cambio realizado.
             message = $"State Deleted | State ID: {state.Id} State Name: {state.Name}";
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
             return NoContent();
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the States. Please try again later.";
             _loggingService.LogError(message, ex);
 

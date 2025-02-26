@@ -6,7 +6,8 @@ using System.Diagnostics.Metrics;
 using System.Threading.Tasks;
 
 namespace API.Controllers;
-
+[ApiController]
+[Route("api/tasksHistory")]
 public class TaskHistoryController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +22,7 @@ public class TaskHistoryController : BaseApiController
     }
 
     // Método existente: obtener todas los paises
-    [HttpGet("GetAll")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<TaskHistory>>> Get()
@@ -53,7 +54,7 @@ public class TaskHistoryController : BaseApiController
     }
 
     // Método existente: obtener una tarea por su ID
-    [HttpGet("Get")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -85,7 +86,7 @@ public class TaskHistoryController : BaseApiController
     }
 
     // Método existente: agregar una tarea
-    [HttpPost("Add")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TaskHistory>> Post(TaskHistory oTaskHistory)
@@ -125,7 +126,7 @@ public class TaskHistoryController : BaseApiController
     }
 
     // Método existente: actualizar una tarea
-    [HttpPut("Update")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -171,7 +172,7 @@ public class TaskHistoryController : BaseApiController
     }
 
     // Método existente: eliminar una tarea
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)

@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "161ac57b-a545-4bb1-9ae1-3e83c1f78a48",
+		"name": "ToDo-List",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26692111"
+	},
+	"item": [
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5184/api/Task/GetAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"Task",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5184/api/Task/Get?id=14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"Task",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"XXXX\",\r\n  \"stateId\": 1,\r\n  \"initialDate\": \"2025-01-31T21:30:52.569Z\",\r\n  \"finishDate\": \"2025-01-31T21:30:52.569Z\",\r\n  \"done\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/Task/Add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"Task",
+								"Add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 10,\r\n  \"name\": \"Tarea 10\",\r\n  \"stateId\": 2,\r\n  \"initialDate\": \"2025-01-31T23:11:11.910Z\",\r\n  \"finishDate\": \"2025-01-31T23:11:11.910Z\",\r\n  \"done\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/Task/Update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"Task",
+								"Update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/Task/Delete/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"Task",
+								"Delete",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TasksHistory",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5184/api/TaskHistory/GetAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"TaskHistory",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5184/api/TaskHistory/Get?id=8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"TaskHistory",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"taskId\": 10,\r\n  \"stateId\": 1,\r\n  \"changedDate\": \"2025-01-31T23:09:16.728Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/TaskHistory/Add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"TaskHistory",
+								"Add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 14,\r\n  \"taskId\": 10,\r\n  \"stateId\": 1,\r\n  \"changedDate\": \"2025-01-31T23:18:03.058Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/TaskHistory/Update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"TaskHistory",
+								"Update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/TaskHistory/Delete/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"TaskHistory",
+								"Delete",
+								"14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "States",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5184/api/State/GetAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"State",
+								"GetAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5184/api/State/Get?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"State",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"State1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/State/Add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"State",
+								"Add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 5,\r\n  \"name\": \"SSS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/State/Update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"State",
+								"Update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5184/api/State/Delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5184",
+							"path": [
+								"api",
+								"State",
+								"Delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
