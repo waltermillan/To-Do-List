@@ -22,7 +22,6 @@ public class TaskController : BaseApiController
         _loggingService = loggingService;
     }
 
-    // Método existente: obtener todas los paises
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,7 +35,6 @@ public class TaskController : BaseApiController
             foreach (var task in tasks)
             {
                 message = $"Tasks Listed | Task ID: {task.Id} Task Name: {task.Name}\n";
-
                 _loggingService.LogInformation(message);
             }
 
@@ -46,12 +44,10 @@ public class TaskController : BaseApiController
         {
             message = "There was an issue retrieving the Task. Please try again later.";
             _loggingService.LogError(message, ex);
-
             return StatusCode(500, new { Message = "There was an issue retrieving the Task. Please try again later.", Details = ex.Message });
         }
     }
 
-    // Método existente: obtener una tarea por su ID
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,25 +58,23 @@ public class TaskController : BaseApiController
         try
         {
             var task = await _unitOfWork.Tasks.GetByIdAsync(id);
-            if (task == null)
+
+            if (task is null)
                 return NotFound();
 
             message = $"Task Listed | Task ID: {task.Id} Task Name: {task.Name}";
 
             _loggingService.LogInformation(message);
-
             return _mapper.Map<Core.Entities.Task>(task);
         }
         catch (Exception ex)
         {
             message = "There was an issue retrieving the tasks. Please try again later.";
             _loggingService.LogError(message, ex);
-
             return StatusCode(500, new { Message = message, Details = ex.Message });
         }
     }
 
-    // Método existente: agregar una tarea
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -94,15 +88,11 @@ public class TaskController : BaseApiController
             _unitOfWork.Tasks.Add(task);
             await _unitOfWork.SaveAsync();
 
-            if (task == null)
-            {
+            if (task is null)
                 return BadRequest();
-            }
 
             oTask.Id = task.Id;
-
             message = $"Task Created | Task ID: {task.Id} Task Name: {task.Name}";
-
             _loggingService.LogInformation(message);
 
             return CreatedAtAction(nameof(Post), new { id = oTask.Id }, oTask);
@@ -117,7 +107,6 @@ public class TaskController : BaseApiController
         }
     }
 
-    // Método existente: actualizar una tarea
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -127,7 +116,7 @@ public class TaskController : BaseApiController
         var message = string.Empty;
         try
         {
-            if (oTask == null)
+            if (oTask is null)
                 return NotFound();
 
             var task = await _unitOfWork.Tasks.GetByIdAsync(oTask.Id);
@@ -154,8 +143,6 @@ public class TaskController : BaseApiController
         }
     }
 
-
-    // Método existente: eliminar una tarea
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -165,7 +152,8 @@ public class TaskController : BaseApiController
         try
         {
             var task = await _unitOfWork.Tasks.GetByIdAsync(id);
-            if (task == null)
+
+            if (task is null)
                 return NotFound();
 
             _unitOfWork.Tasks.Remove(task);

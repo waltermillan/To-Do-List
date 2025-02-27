@@ -19,10 +19,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     {
         get
         {
-            if (_tasks == null)
-            {
+            if (_tasks is null)
                 _tasks = new TaskRepository(_context);
-            }
+
             return _tasks;
         }
     }
@@ -31,10 +30,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     {
         get
         {
-            if (_states == null)
-            {
+            if (_states is null)
                 _states = new StateRepository(_context);
-            }
+
             return _states;
         }
     }
@@ -43,10 +41,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     {
         get
         {
-            if (_taskshistory == null)
-            {
+            if (_taskshistory is null)
                 _taskshistory = new TaskHistoryRepository(_context);
-            }
+
             return _taskshistory;
         }
     }

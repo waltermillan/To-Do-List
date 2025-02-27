@@ -22,7 +22,6 @@ public class StateController : BaseApiController
         _loggingService = loggingService;
     }
 
-    // Método existente: obtener todas los estados
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,7 +35,6 @@ public class StateController : BaseApiController
             foreach (var state in states)
             {
                 message = $"States Listed | State ID: {state.Id} State Name: {state.Name}\n";
-
                 _loggingService.LogInformation(message);
             }
 
@@ -51,7 +49,6 @@ public class StateController : BaseApiController
         }
     }
 
-    // Método existente: obtener un estado por su ID
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,7 +59,8 @@ public class StateController : BaseApiController
         try
         {
             var state = await _unitOfWork.States.GetByIdAsync(id);
-            if (state == null)
+
+            if (state is null)
                 return NotFound();
 
             message = $"State Listed | State ID: {state.Id} State Name: {state.Name}";
@@ -80,7 +78,6 @@ public class StateController : BaseApiController
         }
     }
 
-    // Método existente: agregar un estado
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -95,10 +92,8 @@ public class StateController : BaseApiController
             _unitOfWork.States.Add(state);
             await _unitOfWork.SaveAsync();
 
-            if (state == null)
-            {
+            if (state is null)
                 return BadRequest();
-            }
 
             oState.Id = state.Id;
 
@@ -117,7 +112,6 @@ public class StateController : BaseApiController
         }
     }
 
-    // Método existente: actualizar un estado
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -131,7 +125,8 @@ public class StateController : BaseApiController
                 return NotFound();
 
             var state = await _unitOfWork.States.GetByIdAsync(oState.Id);
-            if (state == null)
+
+            if (state is null)
                 return NotFound();
 
             message = $"State Updated | State ID: {state.Id} State Name (old): {state.Name} State Name (new): {oState.Name} ";
@@ -154,7 +149,6 @@ public class StateController : BaseApiController
         }
     }
 
-    // Método existente: eliminar un estado
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -164,7 +158,8 @@ public class StateController : BaseApiController
         try
         {
             var state = await _unitOfWork.States.GetByIdAsync(id);
-            if (state == null)
+
+            if (state is null)
                 return NotFound();
 
             _unitOfWork.States.Remove(state);

@@ -21,7 +21,6 @@ public class TaskHistoryController : BaseApiController
         _loggingService = loggingService;
     }
 
-    // Método existente: obtener todas los paises
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -34,10 +33,7 @@ public class TaskHistoryController : BaseApiController
 
             foreach (var taskHistory in tasksHistory)
             {
-                // mensaje de la busqueda realizada
                 message = $"TasksHistory Listed | TaskHistory ID: {taskHistory.Id} Task ID: {taskHistory.TaskId} State Id: {taskHistory.StateId} Changed Date: {taskHistory.ChangedDate}\n";
-
-                // Logueamos la busqueda realizada
                 _loggingService.LogInformation(message);
             }
 
@@ -45,7 +41,6 @@ public class TaskHistoryController : BaseApiController
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the TaskHistory. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -53,7 +48,6 @@ public class TaskHistoryController : BaseApiController
         }
     }
 
-    // Método existente: obtener una tarea por su ID
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,20 +58,18 @@ public class TaskHistoryController : BaseApiController
         try
         {
             var taskHistory = await _unitOfWork.TasksHistory.GetByIdAsync(id);
-            if (taskHistory == null)
+
+            if (taskHistory is null)
                 return NotFound();
 
-            // mensaje de la busqueda realizada
             message = $"TasksHistory Listed | TaskHistory ID: {taskHistory.Id} Task ID: {taskHistory.TaskId} State Id: {taskHistory.StateId} Changed Date: {taskHistory.ChangedDate}\n";
 
-            // Logueamos la busqueda realizada
             _loggingService.LogInformation(message);
 
             return _mapper.Map<TaskHistory>(taskHistory);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the TasksHistory. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -85,7 +77,6 @@ public class TaskHistoryController : BaseApiController
         }
     }
 
-    // Método existente: agregar una tarea
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -94,30 +85,24 @@ public class TaskHistoryController : BaseApiController
         var message = string.Empty;
         try
         {
-            // Utilizamos el patron Factory (TaskHistory), para crear la tarea historica
             var taskHistory = Core.Factories.TaskHistoryFactory.CreateTaskHistory(oTaskHistory.Id, oTaskHistory.TaskId, oTaskHistory.StateId, oTaskHistory.ChangedDate);
 
-            // Añadir la tarea creada usando el repositorio
             _unitOfWork.TasksHistory.Add(taskHistory);
             await _unitOfWork.SaveAsync();
 
-            if (taskHistory == null)
-            {
+            if (taskHistory is null)
                 return BadRequest();
-            }
+
             oTaskHistory.Id = taskHistory.Id;
 
-            // mensaje del cambio realizado.
             message = $"TaskHistory Created | TaskHistory ID: {taskHistory.Id} TaskHistory TaskId: {taskHistory.TaskId} TaskHistory StateId: {taskHistory.StateId} TaskHistory Changed Date: {taskHistory.ChangedDate}";
 
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
             return CreatedAtAction(nameof(Post), new { id = oTaskHistory.Id }, oTaskHistory);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the TasksHistory. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -125,7 +110,6 @@ public class TaskHistoryController : BaseApiController
         }
     }
 
-    // Método existente: actualizar una tarea
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -135,35 +119,28 @@ public class TaskHistoryController : BaseApiController
         var message = string.Empty;
         try
         {
-            if (oTaskHistory == null)
+            if (oTaskHistory is null)
                 return NotFound();
 
-            // Primero obtenemos la tarea de la base de datos, para asegurar que estamos actualizando la correcta
             var taskHistory = await _unitOfWork.TasksHistory.GetByIdAsync(oTaskHistory.Id);
             if (taskHistory == null)
                 return NotFound();
 
-            // mensaje del cambio realizado.
             message = $"TaskHistory Updated | TaskHistory ID: {taskHistory.Id} TaskHistory TaskId (old): {taskHistory.TaskId} TaskHistory StateId (old): {taskHistory.StateId} TaskHistory Changed Date (old): {taskHistory.ChangedDate}\n" +
                 $"TaskHistory TaskId (new): {oTaskHistory.TaskId} TaskHistory StateId (new): {oTaskHistory.StateId} TaskHistory Changed Date (new): {oTaskHistory.ChangedDate}";
-
 
             // Utilizamos AutoMapper para mapear las propiedades de oTask a task
             _mapper.Map(oTaskHistory, taskHistory);  // Este paso asigna automáticamente las propiedades
 
-            // Llamamos al método Update del repositorio para guardar los cambios
             _unitOfWork.TasksHistory.Update(taskHistory);
             await _unitOfWork.SaveAsync();
 
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
-            // Retornamos la tarea actualizada
             return Ok(taskHistory);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the TasksHistory. Please try again later.";
             _loggingService.LogError(message, ex);
 
@@ -171,7 +148,6 @@ public class TaskHistoryController : BaseApiController
         }
     }
 
-    // Método existente: eliminar una tarea
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -187,16 +163,13 @@ public class TaskHistoryController : BaseApiController
             _unitOfWork.TasksHistory.Remove(taskHistory);
             await _unitOfWork.SaveAsync();
 
-            // mensaje del cambio realizado.
             message = $"TaskHistory Deleted | TaskHistory ID: {taskHistory.Id} TasksHistory TaskId: {taskHistory.TaskId} TasksHistory StateId: {taskHistory.StateId} TasksHistory ChangedDate: {taskHistory.ChangedDate}";
-            // Logeamos el cambio realizado.
             _loggingService.LogInformation(message);
 
             return NoContent();
         }
         catch (Exception ex)
         {
-            // Loggeamos el error para fines de depuración y luego devolvemos una respuesta con un mensaje amigable
             message = "There was an issue retrieving the TasksHistory. Please try again later.";
             _loggingService.LogError(message, ex);
 
