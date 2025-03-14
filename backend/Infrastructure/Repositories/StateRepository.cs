@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class StateRepository(Context context) : GenericRepository<State>(context), IStateRepository
+public class StateRepository(TodoListContext context) : GenericRepository<State>(context), IStateRepository
 {
 
     // Método existente

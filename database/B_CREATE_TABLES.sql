@@ -5,7 +5,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[State](
+CREATE TABLE [dbo].[States](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](200) NULL,
  CONSTRAINT [PK_State] PRIMARY KEY CLUSTERED 
@@ -19,7 +19,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Task](
+CREATE TABLE [dbo].[Tasks](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](200) NULL,
 	[state_id] [int] NULL,
@@ -37,7 +37,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[TaskHistory](
+CREATE TABLE [dbo].[TasksHistory](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[task_id] [int] NOT NULL,
 	[state_id] [int] NOT NULL,

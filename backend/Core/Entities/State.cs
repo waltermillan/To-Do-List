@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    [Table("State")]
+    [Table("States")]
     public class State : BaseEntity
     {
         [Column("name")]

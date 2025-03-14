@@ -49,7 +49,7 @@ builder.Services.AddAplicacionServices();
 builder.Services.AddControllers();
 
 // Registrar DbContext con la cadena de conexión desde AppConfig
-builder.Services.AddDbContext<Context>(options =>
+builder.Services.AddDbContext<TodoListContext>(options =>
 {
     options.UseSqlServer(appConfig.ConnectionString); // Usamos la cadena de conexión desde AppConfig
 });
@@ -79,7 +79,7 @@ using (var scope = app.Services.CreateScope())
     var loggerFactory = services.GetRequiredService<ILoggerFactory>();
     try
     {
-        var context = services.GetRequiredService<Context>();
+        var context = services.GetRequiredService<TodoListContext>();
         await context.Database.MigrateAsync();
     }
     catch (Exception ex)

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { TaskService } from '../services/task.service';  // Importa el servicio TaskService
+import { TaskService } from '../services/task.service';
 import { Task } from '../models/task.model';
 
 @Component({
@@ -13,9 +13,9 @@ export class ArchivedTaskComponent implements OnInit {
   @ViewChild('endDate') sEndDate: ElementRef<HTMLInputElement> | undefined;
 
   tasks:Task[] = [];
-  newTaskName: string = '';  // Variable para almacenar el nombre de la nueva tarea
-  startDate: string = '';    // Variable para almacenar la fecha de inicio
-  endDate: string = '';      // Variable para almacenar la fecha de fin
+  newTaskName: string = ''; 
+  startDate: string = '';
+  endDate: string = ''; 
 
   constructor(private taskService: TaskService) { }
 
@@ -23,7 +23,6 @@ export class ArchivedTaskComponent implements OnInit {
     this.gesAllArchivedTasks();
   }
 
-  // Método para cargar las tareas desde la API
   gesAllArchivedTasks(): void {
     this.taskService.getAllTasks().subscribe({
       next: (data) => {
@@ -38,12 +37,11 @@ export class ArchivedTaskComponent implements OnInit {
     });
   }
 
-  // Método para eliminar una tarea
   deleteTask(taskId:number):void{
     this.taskService.deleteTask(taskId).subscribe({
       next: (data) => {
         console.log('Tarea eliminada con éxito', data);
-        this.gesAllArchivedTasks();  // Recargar las tareas después de eliminar una
+        this.gesAllArchivedTasks();
       },
       error: (error) => {
         console.error('Error al eliminar tarea:', error);
@@ -51,7 +49,6 @@ export class ArchivedTaskComponent implements OnInit {
     });
   }
 
-  // Función para convertir el stateId en una cadena
   getStateName(stateId: number): string {
     switch (stateId) {
       case 1:
@@ -61,7 +58,7 @@ export class ArchivedTaskComponent implements OnInit {
       case 3:
         return 'Archivada';
       default:
-        return 'Desconocido';  // En caso de que haya un estado desconocido
+        return 'Desconocido';
     }
   }
 
@@ -71,7 +68,6 @@ export class ArchivedTaskComponent implements OnInit {
   }
 
   filterData(startDate: string, endDate: string): void{
-
 
     if (startDate == '' || endDate == ''){
       alert('Los filtros están vacios');
@@ -95,17 +91,15 @@ export class ArchivedTaskComponent implements OnInit {
   cleanData(startDate: string, endDate: string): void {
     this.gesAllArchivedTasks();
 
-      // Limpiar las propiedades vinculadas a ngModel
     this.startDate = '';
     this.endDate = '';
       
-    // Asegurarse de que las referencias existan y luego limpiar el valor
     if (this.sStartDate && this.sStartDate.nativeElement) {
-      this.sStartDate.nativeElement.value = ''; // Limpiar el valor del input
+      this.sStartDate.nativeElement.value = '';
     }
   
     if (this.sEndDate && this.sEndDate.nativeElement) {
-      this.sEndDate.nativeElement.value = ''; // Limpiar el valor del input
+      this.sEndDate.nativeElement.value = '';
     }
   }
 }

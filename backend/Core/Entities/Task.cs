@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Core.Entities
 {
-    [Table("Task")]
+    [Table("Tasks")]
     public class Task : BaseEntity
     {
         [Column("name")]

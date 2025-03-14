@@ -6,12 +6,12 @@ namespace Infrastructure.Factories
 {
     public static class RepositoryFactory
     {
-        public static ITaskRepository CreateTaskRepository(Context context)
+        public static ITaskRepository CreateTaskRepository(TodoListContext context)
         {
             return new TaskRepository(context);
         }
 
-        public static IStateRepository CreateStateRepository(Context context)
+        public static IStateRepository CreateStateRepository(TodoListContext context)
         {
             return new StateRepository(context);
         }

@@ -5,12 +5,12 @@ namespace Infrastructure.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly Context _context;
+    private readonly TodoListContext _context;
     private ITaskRepository _tasks;
     private IStateRepository _states;
     private ITaskHistoryRepository _taskshistory;
 
-    public UnitOfWork(Context context)
+    public UnitOfWork(TodoListContext context)
     {
         _context = context;
     }

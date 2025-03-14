@@ -1,7 +1,6 @@
 <div class="todo-list">
   <h1>Lista de Tareas</h1>
 
-  <!-- Formulario para agregar tareas -->
   <div class="add-task">
     <input 
       [(ngModel)]="newTaskName" 
@@ -16,34 +15,28 @@
         (click)="toggleRecognition()" 
         class="mic-icon" />    
 
-
-    <!-- Campo de fecha de inicio -->
     <input 
       [(ngModel)]="startDate" 
       type="datetime-local" 
       placeholder="Fecha de inicio" 
       style="width:50%" class="styled-date-input" />
 
-    <!-- Campo de fecha de fin -->
     <input 
       [(ngModel)]="endDate" 
       type="datetime-local" 
       placeholder="Fecha de fin" 
       style="width:50%" class="styled-date-input" />
 
-    <!-- Botón para agregar tarea -->
     <button 
       #BtnAddTask 
       (click)="addTask()" 
       class="btn btn-primary">Agregar tarea</button>
   </div>
 
-  <!-- Mostrar el mensaje cuando no hay tareas -->
   <div *ngIf="tasks.length === 0" class="no-tasks-message">
     No hay tareas disponibles
   </div>
 
-  <!-- Tabla que organiza la presentación de cada tarea con los botones -->
   <table *ngIf="tasks.length > 0" class="task-table">
     <thead>
       <tr>
@@ -57,7 +50,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let task of tasks; let i = index" class="todo-item">
-        <!-- Columna para el nombre de la tarea (90%) -->
+
         <td style="width: 60%;">{{ task.name }}</td>
         <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
         <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
@@ -70,7 +63,6 @@
             (change)="onCheckboxChange($event, task)" />
         </td>
 
-        <!-- Columna para el botón de pendiente -->
         <td style="width: 5%;text-align: center;">
           <button 
             #BtnUpdateTaskToPending 
@@ -84,7 +76,6 @@
           </button>
         </td>
 
-        <!-- Columna para el botón de completada -->
         <td style="width: 5%;text-align: center;">
           <button 
             #BtnUpdateTaskToComplete 
@@ -98,7 +89,6 @@
           </button>
         </td>
 
-        <!-- Columna para el botón de archivada -->
         <td style="width: 5%;text-align: center;">
           <button 
             #BtnUpdateTaskToArchived 
@@ -112,7 +102,6 @@
           </button>
         </td>
 
-        <!-- Columna para el botón de eliminar tarea -->
         <td style="width: 5%;text-align: center;">
           <button 
             #BtnDeleteTask 

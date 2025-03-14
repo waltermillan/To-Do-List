@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HistoryTaskService {
-  private apiUrl = 'http://localhost:5184/api'; // Ajusta la URL base de tu API
+  private apiUrl = 'http://localhost:5184/api';
 
   constructor(private http: HttpClient) { }
 
-  // Método para agregar una tarea a TaskHistory
   archiveTask(taskHistory: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/TasksHistory`, taskHistory);
   }

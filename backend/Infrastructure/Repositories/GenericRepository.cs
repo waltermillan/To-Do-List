@@ -5,9 +5,9 @@ using Infrastructure.Data;
 using Core.Interfases;
 namespace Infrastructure.Repositories;
 
-public class GenericRepository<T>(Context context) : IGenericRepository<T> where T : BaseEntity
+public class GenericRepository<T>(TodoListContext context) : IGenericRepository<T> where T : BaseEntity
 {
-    protected readonly Context _context = context;
+    protected readonly TodoListContext _context = context;
 
     public virtual void Add(T entity)
     {

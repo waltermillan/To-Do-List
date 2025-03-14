@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from '../services/task.service';  // Importa el servicio TaskService
-import { HistoryTaskService } from '../services/history-task.service';  // Importa el servicio HistoryTaskService
+import { TaskService } from '../services/task.service';
+import { HistoryTaskService } from '../services/history-task.service';
 import { Task } from '../models/task.model';
 
 @Component({
@@ -10,30 +10,29 @@ import { Task } from '../models/task.model';
 })
 export class TodoListComponent implements OnInit {
   tasks: Task[] = [];
-  newTaskName: string = '';  // Variable para almacenar el nombre de la nueva tarea
-  startDate: string = '';    // Variable para almacenar la fecha de inicio
-  endDate: string = '';      // Variable para almacenar la fecha de fin
+  newTaskName: string = ''; 
+  startDate: string = '';    
+  endDate: string = '';      
   done: boolean = false;
 
   recognition: any;
-  isRecognizing = false; // Indicador de si está reconociendo
-  errorMessage: string | null = null;  // Mensaje de error para mostrar en la UI
+  isRecognizing = false; 
+  errorMessage: string | null = null;
 
   constructor(
     private taskService: TaskService, 
-    private historyTaskService: HistoryTaskService  // Inyectar el HistoryTaskService
-  ) { }
+    private historyTaskService: HistoryTaskService) {   
+  }
 
   ngOnInit(): void {
     this.loadTasks();
-    this.setupRecognition();  // Configurar el reconocimiento de voz
+    this.setupRecognition();
   }
 
-  // Método para cargar las tareas desde la API
   loadTasks(): void {
     this.taskService.getAllTasks().subscribe(
       (data) => {
-        this.tasks = data.filter(t => t.stateId == 1 || t.stateId == 2);  // Asigna las tareas obtenidas desde la API a la variable 'tasks'
+        this.tasks = data.filter(t => t.stateId == 1 || t.stateId == 2);
       },
       (error) => {
         console.error('Error al obtener tareas:', error);
@@ -41,7 +40,6 @@ export class TodoListComponent implements OnInit {
     );
   }
 
-  // Método para agregar una tarea
   addTask(): void {
     if (!this.newTaskName.trim()) {
       alert('Por favor ingresa un nombre para la tarea.');
@@ -61,7 +59,7 @@ export class TodoListComponent implements OnInit {
     if (this.newTaskName.trim() && this.startDate && this.endDate) {
       const newTask = {
         name: this.newTaskName,
-        stateId: 1,  // Asumimos que el estado es 1 (Pendiente) por defecto
+        stateId: 1,
         done: false,
         initialDate: this.startDate,
         finishDate: this.endDate
@@ -70,10 +68,10 @@ export class TodoListComponent implements OnInit {
       this.taskService.addTask(newTask).subscribe({
         next: (data) => {
           console.log('Tarea agregada con éxito', data);
-          this.loadTasks();  // Recargar las tareas después de agregar una nueva
-          this.newTaskName = '';  // Limpiar el campo de entrada
-          this.startDate = '';     // Limpiar el campo de fecha de inicio
-          this.endDate = '';       // Limpiar el campo de fecha de fin
+          this.loadTasks();  
+          this.newTaskName = ''; 
+          this.startDate = '';
+          this.endDate = ''; 
           this.done = false
         },
         error: (error) => {
@@ -83,12 +81,11 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  // Método para eliminar una tarea
   deleteTask(taskId: number): void {
     this.taskService.deleteTask(taskId).subscribe({
       next: (data) => {
         console.log('Tarea eliminada con éxito', data);
-        this.loadTasks();  // Recargar las tareas después de eliminar una
+        this.loadTasks();
       },
       error: (error) => {
         console.error('Error al eliminar tarea:', error);
@@ -96,7 +93,6 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  // Método para actualizar el estado de la tarea y archivarla
   updateTaskState(newStateId: number, taskId: number) {
     const taskToUpdate = this.tasks.find(task => task.id === taskId);
 
@@ -119,7 +115,7 @@ export class TodoListComponent implements OnInit {
             const taskHistory = {
               id: 0,
               taskId: taskId,
-              stateId: 3,  // Archivado
+              stateId: 3,
               changedDate: new Date().toISOString(),
             };
 
@@ -140,7 +136,6 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  // Función para convertir el stateId en una cadena
   getStateName(stateId: number): string {
     switch (stateId) {
       case 1:
@@ -154,7 +149,6 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  // Método de cambio de estado al marcar la tarea como realizada
   onCheckboxChange(event: Event, task: any) {
     const updatedTask = { 
       ...task, 
@@ -172,7 +166,6 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  // Configuración del reconocimiento de voz
   setupRecognition(): void {
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
       this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -189,7 +182,7 @@ export class TodoListComponent implements OnInit {
           }
         }
         console.log('Texto final transcrito:', finalTranscript);
-        this.newTaskName = finalTranscript.trim();  // Actualiza el texto
+        this.newTaskName = finalTranscript.trim();
       };
 
       this.recognition.onerror = (event: any) => {
@@ -206,7 +199,6 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  // Alterna el estado de reconocimiento de voz
   toggleRecognition(): void {
     if (this.isRecognizing) {
       this.stopRecognition();

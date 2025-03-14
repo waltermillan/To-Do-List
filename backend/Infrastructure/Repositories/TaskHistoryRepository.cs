@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class TaskHistoryRepository(Context context) : GenericRepository<TaskHistory>(context), ITaskHistoryRepository
+public class TaskHistoryRepository(TodoListContext context) : GenericRepository<TaskHistory>(context), ITaskHistoryRepository
 {
 
     // Método existente

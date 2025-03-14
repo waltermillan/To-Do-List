@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    [Table("TaskHistory")]
+    [Table("TasksHistory")]
     public class TaskHistory : BaseEntity
     {
         [Column("task_id")]

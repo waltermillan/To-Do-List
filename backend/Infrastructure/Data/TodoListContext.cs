@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Infrastructure.Data
 {
-    public partial class Context(DbContextOptions<Context> options) : DbContext(options)
+    public partial class TodoListContext(DbContextOptions<TodoListContext> options) : DbContext(options)
     {
         public virtual DbSet<Core.Entities.Task>? Tasks { get; set; }
         public virtual DbSet<State>? States { get; set; }

@@ -1,10 +1,7 @@
-/* Estilos generales para la lista de tareas */
-
 th {
     text-align: center !important;
   }
   
-
 .todo-list {
     margin: 20px;
     padding: 10px;
@@ -40,33 +37,31 @@ th {
     background-color: #0056b3;
   }
   
-  /* Estilos para la tabla */
   .task-table {
     width: 100%;
-    border-collapse: collapse; /* Para que las celdas no tengan espacio entre ellas */
+    border-collapse: collapse;
     margin-top: 20px;
   }
   
   .task-table th, .task-table td {
     padding: 10px;
     text-align: left;
-    border: 1px solid #ddd;  /* Línea de borde gris claro */
+    border: 1px solid #ddd;
   }
   
   .task-table th {
-    background-color: #f2f2f2;  /* Color de fondo gris claro para el encabezado */
+    background-color: #f2f2f2;
     font-weight: bold;
   }
   
   .task-table tr:nth-child(even) {
-    background-color: #f9f9f9;  /* Fila con color de fondo gris claro alternado */
+    background-color: #f9f9f9;
   }
   
   .task-table tr:hover {
-    background-color: #f1f1f1;  /* Color de fondo al pasar el mouse por encima de la fila */
+    background-color: #f1f1f1;
   }
   
-  /* Estilo para los botones con imágenes */
   button.image-button {
     background: none;
     border: none;
@@ -75,12 +70,12 @@ th {
   }
   
   button.image-button img {
-    width: 30px; /* Ajusta el tamaño de la imagen */
+    width: 30px;
     height: 30px;
   }
   
   button.image-button:hover img {
-    opacity: 0.8; /* Cambia la opacidad de la imagen al pasar el mouse */
+    opacity: 0.8;
   }
   
   button:disabled {
@@ -89,16 +84,15 @@ th {
   }
   
   .mic-icon {
-    width: 20px;  /* Ajusta el tamaño de la imagen */
-    height: 20px; /* Ajusta el tamaño de la imagen */
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
   }
   
   .mic-icon:hover {
-    transform: scale(1.1); /* Efecto visual cuando pasas el ratón por encima */
+    transform: scale(1.1); 
   }
-  
   
   .error-message {
     color: red;

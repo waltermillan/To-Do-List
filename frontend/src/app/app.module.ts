@@ -10,11 +10,10 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { HomeComponent } from './home/home.component';
 import { ArchivedTaskComponent } from './archived-task/archived-task.component';
 
-// Define las rutas
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },  // Ruta para la página de inicio
-  { path: 'todo', component: TodoListComponent },  // Ruta para la To-Do List
-  { path: 'archived', component: ArchivedTaskComponent },  // Ruta para la To-Do List
+  { path: '', component: HomeComponent }, 
+  { path: 'todo', component: TodoListComponent },
+  { path: 'archived', component: ArchivedTaskComponent },
 ];
 
 @NgModule({
