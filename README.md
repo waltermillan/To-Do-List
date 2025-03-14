@@ -1,35 +1,35 @@
-# Proyecto To-Do-List
-Un «to-do list», o lista de tareas, es una herramienta de gestión del tiempo que se utiliza para enumerar todas las tareas o actividades que se deben realizar. Sirve como un recordatorio de lo que necesita ser completado, permitiendo a los usuarios organizar su trabajo o vida personal de manera más efectiva.
+# To-Do-List Project
+A to-do list is a time management tool used to list all tasks or activities that need to be completed. It serves as a reminder of what needs to be completed, allowing users to organize their work or personal lives more effectively.
 
-## Objetivo:
+## Objective:
 
-Practicar .NET (C#) / SQL Server y Angular (Typescript) / Patrones de diseño / Arquitectura Onion.
-familiarizarme con el uso de formularios en Angular
-Utilizar una API para traductir voz a texto: Específicamente la Web Speech API. Esta API permite que los navegadores realicen tareas de reconocimiento de voz, como transcribir lo que se dice en tiempo real.
+Practice .NET (C#) / SQL Server and Angular (Typescript) / Design Patterns / Onion Architecture.
+Familiarize myself with the use of forms in Angular.
+Use an API to translate speech to text: Specifically the Web Speech API. This API allows browsers to perform speech recognition tasks, such as transcribing what is being said in real time.
 
-## Características
+## Features.
 
 BACKEND:
-- Arquitectura Onion.
-- Principios SOLID.
-- Uso de Entity Framework.
-- Diseño de patrones: Repository (Para acceder a la DB de tareas), UnitOfWork, Singleton (Para manejar la configuración del backend) y Factory (Para crear las instancias de tareas).
+- Onion architecture.
+- SOLID principles.
+- Use of Entity Framework.
+- Pattern design: Repository (To access the task DB), UnitOfWork, Singleton (To manage the backend configuration) and Factory (To create the task instances).
   
 FRONTEND:
-- Desarrollado con Angular 18.0.2
-- Orientado a módulos.
-- Creación de servicios y modelos.
-- Se agrega la invocación a Web Speech API (la cual permite incorporar datos de voz a las aplicaciones web?
+- Developed with Angular 18.0.2.
+- Module oriented.
+- Creation of services and models.
+- Web Speech API invocation is added (which allows to incorporate voice data to web applications?
 
-BBDD:
-- Diagrama de Entidad-Relación Escrito con SQL Server.
-- Tablas (DDLs) y Datos (DMLs).
+DB:
+- Entity-Relationship Diagram Written with SQL Server.
+- Tables (DDLs) and Data (DMLs).
 
-## Instalación
+## Installation
 
-Fecha Inicio: 28/01/2025
-Fecha Final: 03/02/2025
+Start Date: 01/28/2025
+End Date: 03/02/2025
 
-1. Clona el repositorio:
+1. Clone the repository:
 
 git clone [https://github.com/waltermillan/To-Do-List.git](https://github.com/waltermillan/To-Do-List.git)
