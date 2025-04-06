@@ -18,11 +18,12 @@ BACKEND:
 - Add Architecture diagram to explain how the project works.
   
 FRONTEND:
-- Developed with Angular 18.0.2.
+- Developed with Angular 18.0.2/18.2.14
 - Module oriented.
 - Creation of services and models.
 - Web Speech API invocation is added (which allows to incorporate voice data to web applications?
 - Unit testing: using frameworks such as Jasmine 4.6.1 and Karma 6.4.4 as test runner.
+- Use of popup library: @angular/material: 18.2.14 and @angular/cdk: 18.2.14
 
 DB:
 - Entity-Relationship Diagram Written with SQL Server.
@@ -35,8 +36,9 @@ End Date: 03/02/2025
 
 Improvements: 06/04/2025
 	- Add login module.
-	- Uso de Jasmine and Karma for unit test from Frontend.
+	- Use of Jasmine and Karma for unit test from Frontend.
 
 1. Clone the repository:
 
 git clone [https://github.com/waltermillan/To-Do-List.git](https://github.com/waltermillan/To-Do-List.git)
+Youtube: https://youtu.be/478V9e3bG60
