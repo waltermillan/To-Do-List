@@ -1,7 +1,33 @@
-<nav>
-  <a routerLink="/" routerLinkActive="active">Inicio</a>
-  <a routerLink="/todo" routerLinkActive="active">Lista de Tareas</a>
-  <a routerLink="/archived" routerLinkActive="active">Lista de Tareas Archivadas</a>
-</nav>
+<div *ngIf="authService.isLoggedIn()">
+  <nav>
+    <div class="nav-links">
+      <a routerLink="/home" routerLinkActive="active">Home</a>
+      <a routerLink="/todo-list" routerLinkActive="active">Task List</a>
+      <a routerLink="/tasks-archived" routerLinkActive="active">Archived Task List</a>
+      <button class="btn btn-danger" (click)="logout()">Log out</button>
+    </div>
 
-<router-outlet></router-outlet>
+    <div class="user-info">
+      <table style="width: 100%;">
+        <tr>
+          <td style="text-align: left;">
+            <span>User Name: {{ this.userName }}</span>
+          </td>
+          <td style="text-align: right;">
+            <a href="/assets/docs/UserManual.pdf" target="_blank" class="help-icon">
+              <img src="assets/images/help-icon.png" style="width: 30px;height: 30px;" title="User Manual">
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </nav>
+
+  <div class="content-area">
+    <router-outlet></router-outlet>
+  </div>  
+</div>
+
+<div *ngIf="!authService.isLoggedIn()">
+  <app-login></app-login>
+</div>

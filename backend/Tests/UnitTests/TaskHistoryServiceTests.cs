@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Interfases;
+using Core.Interfaces;
 using Core.Services;
 using Infrastructure.Repositories;
 using Moq;
@@ -80,7 +80,6 @@ public class TaskHistoryServiceTests
                     new TaskHistory { Id = 13, ChangedDate = date, StateId = 1,  TaskId = 2 },
                 };
 
-        // Configuramos el mock para verificar que AddRange sea llamado con la lista correcta de gobiernos
         mockTaskHistoryRepository.Setup(repo => repo.AddRange(It.IsAny<IEnumerable<TaskHistory>>()));
 
         var stateService = new TaskHistoryService(mockTaskHistoryRepository.Object);
@@ -100,7 +99,6 @@ public class TaskHistoryServiceTests
         var mockTaskHistoryRepository = new Mock<ITaskHistoryRepository>();
         var taskHistory = new TaskHistory { Id = 9 };
 
-        // Configuramos el mock para que devuelva el continente que estamos eliminando
         mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new TaskHistory { Id = 9 }); // Simulamos que el tarea con Id 9 existe
 
         mockTaskHistoryRepository.Setup(repo => repo.Add(It.IsAny<TaskHistory>()));
@@ -121,8 +119,7 @@ public class TaskHistoryServiceTests
         var mockTaskHistoryRepository = new Mock<ITaskHistoryRepository>();
         var taskHistory = new TaskHistory { Id = 9};
 
-        // Configuramos el mock para que devuelva el continente que estamos eliminando
-        mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new TaskHistory { Id = 9 }); // Simulamos que el tarea con Id 9 existe
+        mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new TaskHistory { Id = 9 });
 
         mockTaskHistoryRepository.Setup(repo => repo.Remove(It.IsAny<TaskHistory>()));
 
@@ -141,13 +138,13 @@ public class TaskHistoryServiceTests
         // Arrange
         var mockTaskHistoryRepository = new Mock<ITaskHistoryRepository>();
         var taskHistory = new TaskHistory { Id = 999, StateId = 1, TaskId = 1 }; // ID que no existe
-        mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(taskHistory.Id)).ReturnsAsync((TaskHistory)null); // Simulamos que el estado no existe.
+        mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(taskHistory.Id)).ReturnsAsync((TaskHistory)null);
 
         var taskHistoryService = new TaskHistoryService(mockTaskHistoryRepository.Object);
 
         // Act & Assert
         var exception = Assert.Throws<KeyNotFoundException>(() => taskHistoryService.UpdateTaskHistory(taskHistory));
-        Assert.Equal("TaskHistory to update not found", exception.Message); // Verificamos que el mensaje de la excepción sea el esperado
+        Assert.Equal("TaskHistory to update not found", exception.Message);
     }
 
     [Fact]
@@ -158,7 +155,7 @@ public class TaskHistoryServiceTests
         var taskHistoryId = 999; // ID que no existe en la base de datos
 
         // Simulamos que no se encuentra el país con el ID 999
-        mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(taskHistoryId)).ReturnsAsync((TaskHistory)null); // Devuelve null para el ID 999
+        mockTaskHistoryRepository.Setup(repo => repo.GetByIdAsync(taskHistoryId)).ReturnsAsync((TaskHistory)null);
 
         var taskHistoryService = new TaskHistoryService(mockTaskHistoryRepository.Object);
 
@@ -166,7 +163,7 @@ public class TaskHistoryServiceTests
         var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() => taskHistoryService.GetTaskHistoryById(taskHistoryId));
 
         // Asegúrate de que el mensaje de la excepción sea el esperado
-        Assert.Equal("TaskHistory not found", exception.Message); // Verifica que el mensaje de la excepción sea "Task not found"
+        Assert.Equal("TaskHistory not found", exception.Message); 
     }
 
 }

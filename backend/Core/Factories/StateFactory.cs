@@ -1,17 +1,16 @@
-﻿// Usamos un alias explícito para Core.Entities.Task
-using Core.Entities;
+﻿using Core.Entities;
 
-namespace Core.Factories
+namespace Core.Factories;
+
+public static class StateFactory
 {
-    public static class StateFactory
+    // The FACTORY PATTERN is a creative design pattern used to create objects
+    // without specifying the exact class of the object to be created.
+    public static State CreateState(string name)
     {
-        // Método para crear tareas
-        public static State CreateState(string name)
+        return new State
         {
-            return new State
-            {
-                Name = name
-            };
-        }
+            Name = name
+        };
     }
 }

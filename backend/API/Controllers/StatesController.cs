@@ -1,21 +1,18 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Core.Factories;
-using Core.Interfases;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace API.Controllers;
-[ApiController]
-[Route("api/states")]
-public class StateController : BaseApiController
+
+public class StatesController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILoggingService _loggingService;
 
-    public StateController(IUnitOfWork unitOfWork, IMapper mapper, ILoggingService loggingService)
+    public StatesController(IUnitOfWork unitOfWork, IMapper mapper, ILoggingService loggingService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -86,7 +83,6 @@ public class StateController : BaseApiController
         var message = string.Empty;
         try
         {
-            // Utilizamos el patron Factory (State) para crear la tarea
             var state = StateFactory.CreateState(oState.Name);
 
             _unitOfWork.States.Add(state);
@@ -121,7 +117,7 @@ public class StateController : BaseApiController
         var message = string.Empty;
         try
         {
-            if (oState == null)
+            if (oState is null)
                 return NotFound();
 
             var state = await _unitOfWork.States.GetByIdAsync(oState.Id);
@@ -131,7 +127,7 @@ public class StateController : BaseApiController
 
             message = $"State Updated | State ID: {state.Id} State Name (old): {state.Name} State Name (new): {oState.Name} ";
 
-            _mapper.Map(oState, state);  // Este paso asigna automáticamente las propiedades
+            _mapper.Map(oState, state);
 
             _unitOfWork.States.Update(state);
             await _unitOfWork.SaveAsync();

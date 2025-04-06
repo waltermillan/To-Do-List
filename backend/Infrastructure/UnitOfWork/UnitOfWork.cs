@@ -1,4 +1,4 @@
-﻿using Core.Interfases;
+﻿using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 namespace Infrastructure.UnitOfWork;
@@ -9,6 +9,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private ITaskRepository _tasks;
     private IStateRepository _states;
     private ITaskHistoryRepository _taskshistory;
+    private IUserRepository _userhistory;
 
     public UnitOfWork(TodoListContext context)
     {
@@ -45,6 +46,17 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 _taskshistory = new TaskHistoryRepository(_context);
 
             return _taskshistory;
+        }
+    }
+
+    public IUserRepository Users
+    {
+        get
+        {
+            if (_userhistory is null)
+                _userhistory = new UserRepository(_context);
+
+            return _userhistory;
         }
     }
 

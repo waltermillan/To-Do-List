@@ -1,48 +1,57 @@
 <div class="todo-list">
-    <h1>Lista de Tareas archivadas</h1>
-  
-    <table *ngIf="tasks.length > 0"  class="task-table">
-      <div>
-          <input 
-            [(ngModel)]="startDate" 
-            type="date" 
-            placeholder="Fecha de inicio" 
-            style="width:25%" class="styled-date-input"/>
+  <h1>List task's archived</h1>
 
-          <input 
-            [(ngModel)]="endDate" 
-            type="date" 
-            placeholder="Fecha de fin" 
-            style="width:25%" class="styled-date-input" />
+  <div class="filter-container">
+    <input 
+      [(ngModel)]="startDate" 
+      type="date" 
+      placeholder="Start date" 
+      class="styled-date-input"/>
 
-          <input class="btn btn-primary mt-2 filter-btn" type="button" value="Filtrar" (click)="filterData(startDate, endDate)"  style="margin-right: 10px;">
-          <input class="btn btn-primary mt-2 filter-btn" type="button" value="Limpiar" (click)="cleanData(startDate, endDate)">
-      </div>
-    </table>
+    <input 
+      [(ngModel)]="endDate" 
+      type="date" 
+      placeholder="End date" 
+      class="styled-date-input" />
 
-    <table *ngIf="tasks.length > 0"  class="task-table">
+    <div class="filter-actions">
+      <input 
+        class="btn btn-primary filter-btn" 
+        type="button" 
+        value="Filtrar" 
+        (click)="filterData(startDate, endDate)">
+      <input 
+        class="btn btn-primary filter-btn" 
+        type="button" 
+        value="Limpiar" 
+        (click)="cleanData(startDate, endDate)">
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table *ngIf="tasks.length > 0" class="task-table">
       <thead>
         <tr>
-          <th>Nombre de la tarea</th>
-          <th>Realizada</th>
-          <th>Inicio</th>
-          <th>Fin</th>
-          <th>Estado</th>
+          <th>Task's name</th>
+          <th>Done</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>State</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let task of tasks; let i = index" class="todo-item">
-
           <td style="width: 80%;">{{ task.name }}</td>
-          <td style="width: 5%;text-align: center;">{{ getDoneState(task.done) }}</td>
-          <td style="width: 5%;text-align: center;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 5%;text-align: center;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 5%;text-align: center;">{{ getStateName(task.stateId )}}</td>
+          <td style="width: 5%; text-align: center;">{{ getDoneState(task.done) }}</td>
+          <td style="width: 5%; text-align: center;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%; text-align: center;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%; text-align: center;">{{ getStateName(task.stateId) }}</td>
         </tr>
       </tbody>
     </table>
-      </div>
+  </div>
 
-      <div *ngIf="tasks.length === 0" class="no-tasks-message">
-        No hay tareas disponibles
-    </div>
+  <div *ngIf="tasks.length === 0" class="no-tasks-message">
+    No tasks available
+  </div>
+</div>

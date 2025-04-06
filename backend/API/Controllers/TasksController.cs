@@ -1,21 +1,16 @@
 ﻿using AutoMapper;
-using Core.Entities;
-using Core.Interfases;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Metrics;
-using System.Threading.Tasks;
-using TaskEntity = Core.Entities.Task;
 
 namespace API.Controllers;
-[ApiController]
-[Route("api/tasks")]
-public class TaskController : BaseApiController
+
+public class TasksController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILoggingService _loggingService;
 
-    public TaskController(IUnitOfWork unitOfWork, IMapper mapper, ILoggingService loggingService)
+    public TasksController(IUnitOfWork unitOfWork, IMapper mapper, ILoggingService loggingService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -120,12 +115,13 @@ public class TaskController : BaseApiController
                 return NotFound();
 
             var task = await _unitOfWork.Tasks.GetByIdAsync(oTask.Id);
-            if (task == null)
+
+            if (task is null)
                 return NotFound();
 
             message = $"Task Updated | Task ID: {task.Id} Task Name (old): {task.Name} Task Name (new): {oTask.Name} ";
 
-            _mapper.Map(oTask, task);  // Este paso asigna automáticamente las propiedades
+            _mapper.Map(oTask, task);
 
             _unitOfWork.Tasks.Update(task);
             await _unitOfWork.SaveAsync();

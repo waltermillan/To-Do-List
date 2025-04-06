@@ -1,0 +1,119 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #121212; /* Fondo negro */
+  margin: 0;
+  padding: 0;
+  color: #E0E0E0; /* Texto claro para buen contraste en fondo oscuro */
+}
+
+a {
+  text-decoration: none;
+  color: #E0E0E0; /* Texto claro */
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #4CAF50; /* Verde al pasar el ratón */
+}
+
+.active {
+  font-weight: bold;
+  color: #4CAF50; /* Verde cuando está activo */
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #121212; /* Fondo oscuro para la pantalla de login */
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #1E1E1E; /* Fondo oscuro para la tarjeta */
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #333333; /* Borde oscuro */
+}
+
+mat-card-header {
+  background-color: #333333; /* Encabezado oscuro */
+  color: #4CAF50; /* Verde para el texto */
+  text-align: center;
+  padding: 15px;
+  border-radius: 4px 4px 0 0;
+}
+
+mat-card-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+mat-form-field .mat-form-field-label {
+  color: #E0E0E0; /* Etiquetas claras */
+}
+
+mat-form-field input {
+  background-color: #333333; /* Fondo oscuro para los inputs */
+  color: #E0E0E0; /* Texto claro en los inputs */
+}
+
+mat-form-field .mat-error {
+  color: #FF5722; /* Color de error en rojo */
+}
+
+mat-form-field.mat-focused .mat-form-field-label {
+  color: #4CAF50; /* Verde cuando el campo está enfocado */
+}
+
+.login-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button.mat-raised-button {
+  background-color: #4CAF50; /* Botón verde */
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+button.mat-raised-button:disabled {
+  background-color: #333333; /* Botón deshabilitado con fondo oscuro */
+}
+
+button.mat-raised-button:hover {
+  background-color: #388E3C; /* Verde más oscuro al pasar el ratón */
+}
+
+.success-snackbar {
+  background-color: #4CAF50; /* Fondo verde para éxito */
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #FF5722; /* Fondo rojo para error */
+  color: white;
+}
+
+.app-footer {
+  background-color: #333333; /* Fondo negro para el pie de página */
+  color: white;
+  padding: 15px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1);
+}

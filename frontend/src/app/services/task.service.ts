@@ -1,33 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { GLOBAL_CONFIG } from '../config/config.global';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private apiUrl = 'http://localhost:5184/api/tasks/';
+  url: string = ''
 
-  constructor(private http: HttpClient) { }
 
-  getAllTasks(): Observable<any[]> {
-    const url = this.apiUrl;
-    return this.http.get<any[]>(url);
+  constructor(private http: HttpClient) { 
+
+    this.url = `${GLOBAL_CONFIG.apiBaseUrl}/tasks`;
   }
 
-  addTask(task: { name: string, stateId: number, initialDate: string, finishDate: string }): Observable<any> {
-    const url = this.apiUrl;
-    return this.http.post<any>(url, task);
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.url);
   }
 
-  deleteTask(taskId: number): Observable<any> {
-    const url = `${this.apiUrl }${taskId}`;
+  add(task: { name: string, stateId: number, initialDate: string, finishDate: string }): Observable<any> {
+    return this.http.post<any>(this.url, task);
+  }
+
+  delete(taskId: number): Observable<any> {
+    const url = `${this.url}/${taskId}`
     return this.http.delete<any>(url);
   }
 
   updateTask(task: any, id:number): Observable<any> {
-    const url = this.apiUrl + id;
+    const url = `${this.url}/${task.id}`
     return this.http.put(url, task);
   }
 }

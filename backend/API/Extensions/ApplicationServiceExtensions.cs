@@ -1,16 +1,20 @@
-﻿using Core.Interfases;
+﻿using Core.Interfaces;
 using Infrastructure.Repositories;
 using Infrastructure.UnitOfWork;
 
 namespace API.Extensions;
 public static class ApplicationServiceExtensions
 {
-    public static void ConfigureCors(this IServiceCollection services) =>
+    public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration) =>
         services.AddCors(options =>
         {
+            string[] verbs = configuration.GetSection("CorsSettings:Methods").Get<string[]>();
+
+            var origins = configuration.GetSection("CorsSettings:Origins").Get<string[]>();
+
             options.AddPolicy("CorsPolicy", builder =>
-                builder.WithOrigins("http://localhost:4200")  // Permite solo este origen en desarrollo
-                    .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                builder.WithOrigins(origins)  // Allows only of these developing origins
+                    .WithMethods(verbs)
                     .AllowAnyHeader());
         });
 

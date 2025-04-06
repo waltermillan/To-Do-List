@@ -13,13 +13,16 @@ BACKEND:
 - Onion architecture.
 - SOLID principles.
 - Use of Entity Framework.
-- Pattern design: Repository (To access the task DB), UnitOfWork, Singleton (To manage the backend configuration) and Factory (To create the task instances).
+- Pattern design: BaseEntity, Repository (To access the task DB), UnitOfWork, Singleton (To manage the backend configuration) and Factory (To create the task instances).
+- Adds HashPassword class to encrypt DB access passwords.
+- Add Architecture diagram to explain how the project works.
   
 FRONTEND:
 - Developed with Angular 18.0.2.
 - Module oriented.
 - Creation of services and models.
 - Web Speech API invocation is added (which allows to incorporate voice data to web applications?
+- Unit testing: using frameworks such as Jasmine 4.6.1 and Karma 6.4.4 as test runner.
 
 DB:
 - Entity-Relationship Diagram Written with SQL Server.
@@ -29,6 +32,10 @@ DB:
 
 Start Date: 01/28/2025
 End Date: 03/02/2025
+
+Improvements: 06/04/2025
+	- Add login module.
+	- Uso de Jasmine and Karma for unit test from Frontend.
 
 1. Clone the repository:
 

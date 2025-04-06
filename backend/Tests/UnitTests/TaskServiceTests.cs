@@ -1,5 +1,4 @@
-﻿using Core.Entities;
-using Core.Interfases;
+﻿using Core.Interfaces;
 using Core.Services;
 using Moq;
 
@@ -45,7 +44,7 @@ public class TaskServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(2, result.Count()); // Usamos Count() para contar los elementos
+        Assert.Equal(2, result.Count());
         Assert.Contains(result, p => p.Name == "Task1");
         Assert.Contains(result, p => p.Name == "Task2");
     }
@@ -80,7 +79,6 @@ public class TaskServiceTests
         new Core.Entities.Task { Id = 13, Name = "Task1" }
     };
 
-        // Configuramos el mock para verificar que AddRange sea llamado con la lista correcta de paises
         mockTaskRepository.Setup(repo => repo.AddRange(It.IsAny<IEnumerable<Core.Entities.Task>>()));
 
         var taskService = new TaskService(mockTaskRepository.Object);
@@ -99,8 +97,7 @@ public class TaskServiceTests
         var mockTaskRepository = new Mock<ITaskRepository>();
         var task = new Core.Entities.Task { Id = 9, Name = "NewTask1" };
 
-        // Configuramos el mock para que devuelva el continente que estamos eliminando
-        mockTaskRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new Core.Entities.Task { Id = 9, Name = "NewTask1" }); // Simulamos que el tarea con Id 9 existe
+        mockTaskRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new Core.Entities.Task { Id = 9, Name = "NewTask1" });
 
         mockTaskRepository.Setup(repo => repo.Add(It.IsAny<Core.Entities.Task>()));
 
@@ -120,8 +117,7 @@ public class TaskServiceTests
         var mockTaskRepository = new Mock<ITaskRepository>();
         var task = new Core.Entities.Task { Id = 9, Name = "NewTask1" };
 
-        // Configuramos el mock para que devuelva el continente que estamos eliminando
-        mockTaskRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new Core.Entities.Task { Id = 9, Name = "NewTask1" }); // Simulamos que el tarea con Id 9 existe
+        mockTaskRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new Core.Entities.Task { Id = 9, Name = "NewTask1" });
 
         mockTaskRepository.Setup(repo => repo.Remove(It.IsAny<Core.Entities.Task>()));
 
@@ -139,18 +135,18 @@ public class TaskServiceTests
     {
         // Arrange
         var mockTaskRepository = new Mock<ITaskRepository>();
-        var task = new Core.Entities.Task { Id = 999, Name = "NonExistingTask" }; // ID que no existe
+        var task = new Core.Entities.Task { Id = 999, Name = "NonExistingTask" };
 
         // Configuramos el mock para que devuelva el continente que estamos actalizando
-        mockTaskRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new Core.Entities.Task { Id = 999, Name = "NonExistingTask" }); // Simulamos que la tarea con Id 9 existe
+        mockTaskRepository.Setup(repo => repo.GetByIdAsync(9)).ReturnsAsync(new Core.Entities.Task { Id = 999, Name = "NonExistingTask" });
 
-        mockTaskRepository.Setup(repo => repo.GetByIdAsync(task.Id)).ReturnsAsync((Core.Entities.Task)null); // Simulamos que el continente no existe.
+        mockTaskRepository.Setup(repo => repo.GetByIdAsync(task.Id)).ReturnsAsync((Core.Entities.Task)null);
 
         var taskService = new TaskService(mockTaskRepository.Object);
 
         // Act & Assert
         var exception = Assert.Throws<KeyNotFoundException>(() => taskService.UpdateTask(task));
-        Assert.Equal("Task to update not found", exception.Message); // Verificamos que el mensaje de la excepción sea el esperado
+        Assert.Equal("Task to update not found", exception.Message);
     }
 
     [Fact]
@@ -161,15 +157,14 @@ public class TaskServiceTests
         var taskId = 999; // ID que no existe en la base de datos
 
         // Simulamos que no se encuentra el país con el ID 999
-        mockTaskRepository.Setup(repo => repo.GetByIdAsync(taskId)).ReturnsAsync((Core.Entities.Task)null); // Devuelve null para el ID 999
+        mockTaskRepository.Setup(repo => repo.GetByIdAsync(taskId)).ReturnsAsync((Core.Entities.Task)null);
 
         var taskService = new TaskService(mockTaskRepository.Object);
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() => taskService.GetTaskById(taskId));
 
-        // Asegúrate de que el mensaje de la excepción sea el esperado
-        Assert.Equal("Task not found", exception.Message); // Verifica que el mensaje de la excepción sea "Task not found"
+        Assert.Equal("Task not found", exception.Message);
     }
 
 }

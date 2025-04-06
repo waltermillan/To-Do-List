@@ -1,103 +1,115 @@
+.table-container {
+  max-height: 470px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+}
+
+thead.thead-blue {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  z-index: 1;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
 th {
-    text-align: center !important;
-  }
-  
+  text-align: center;
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.task-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+button.image-button {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+button.image-button img {
+  width: 30px;
+  height: 30px;
+}
+
+button.image-button:hover img {
+  opacity: 0.8;
+}
+
 .todo-list {
-    margin: 20px;
-    padding: 10px;
-  }
-  
-  h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .add-task {
-    margin-bottom: 20px;
-  }
-  
-  .add-task input {
-    padding: 5px;
-    font-size: 16px;
-    width: 80%;
-    margin-right: 10px;
-  }
-  
-  .add-task button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-task button:hover {
-    background-color: #0056b3;
-  }
-  
-  .task-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .task-table th, .task-table td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .task-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  
-  .task-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .task-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  button.image-button {
-    background: none;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  button.image-button img {
-    width: 30px;
-    height: 30px;
-  }
-  
-  button.image-button:hover img {
-    opacity: 0.8;
-  }
-  
-  button:disabled {
-    background-color: #d6d6d6;
-    cursor: not-allowed;
-  }
-  
-  .mic-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .mic-icon:hover {
-    transform: scale(1.1); 
-  }
-  
-  .error-message {
-    color: red;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
-  
+  margin: 20px;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.add-task {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.add-task input {
+  flex-grow: 1;
+  padding: 5px;
+}
+
+.styled-date-input {
+  width: 25%;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.no-tasks-message {
+  color: #333;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.mic-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.mic-icon:hover {
+  transform: scale(1.1); 
+}

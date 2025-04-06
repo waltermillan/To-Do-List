@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { Task } from '../models/task.model';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent } from '../modals/success-dialog/success-dialog.component';
+import { FailureDialogComponent } from '../modals/failure-dialog/failure-dialog.component';
 
 @Component({
   selector: 'app-archived-task',
@@ -17,34 +20,54 @@ export class ArchivedTaskComponent implements OnInit {
   startDate: string = '';
   endDate: string = ''; 
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService,
+              private dialog: MatDialog) { 
+  }
 
   ngOnInit(): void {
     this.gesAllArchivedTasks();
   }
 
   gesAllArchivedTasks(): void {
-    this.taskService.getAllTasks().subscribe({
+    this.taskService.getAll().subscribe({
       next: (data) => {
         this.tasks = data.filter(t => t.stateId == 3);
       },
       error: (error) => {
-        console.error('Error al obtener tareas:', error);
+        console.error('Error getting tasks:', error);
+        this.dialog.open(FailureDialogComponent, {
+          data: {
+            message: 'Error getting tasks'
+          }
+        });
       },
       complete: () => {
-        console.log('La carga de tareas ha finalizado');
+        console.log('Loading tasks successfully');
       }
     });
   }
 
   deleteTask(taskId:number):void{
-    this.taskService.deleteTask(taskId).subscribe({
+    this.taskService.delete(taskId).subscribe({
       next: (data) => {
-        console.log('Tarea eliminada con éxito', data);
+        console.log('Task deleted successfully', data);
         this.gesAllArchivedTasks();
+
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            message: 'Task deleted successfully'
+          }
+        });
+
       },
       error: (error) => {
-        console.error('Error al eliminar tarea:', error);
+        console.error('Error deleting tasks:', error);
+
+        this.dialog.open(FailureDialogComponent, {
+          data: {
+            message: 'Error deleting tasks.'
+          }
+        });
       }
     });
   }
@@ -52,38 +75,50 @@ export class ArchivedTaskComponent implements OnInit {
   getStateName(stateId: number): string {
     switch (stateId) {
       case 1:
-        return 'Pendiente';
+        return 'Pending';
       case 2:
-        return 'Completada';
+        return 'Completed';
       case 3:
-        return 'Archivada';
+        return 'Archived';
       default:
-        return 'Desconocido';
+        return 'Unknown';
     }
   }
 
   getDoneState(done:boolean):string
   {
-    return (done == true) ? "SI" : "NO";
+    return (done == true) ? "YES" : "NO";
   }
 
   filterData(startDate: string, endDate: string): void{
 
     if (startDate == '' || endDate == ''){
-      alert('Los filtros están vacios');
+      this.dialog.open(FailureDialogComponent, {
+        data: {
+          message: 'Filters empty.'
+        }
+      });
       return;
     }
 
-    this.taskService.getAllTasks().subscribe({
+    this.taskService.getAll().subscribe({
 
       next: (data) => {
-        this.tasks = data.filter(t => t.initialDate >= startDate && t.initialDate <= endDate);
+        this.tasks = data.filter(t => t.initialDate >= startDate && t.initialDate <= endDate && t.stateId == 3);
       },
       error: (error) => {
-        console.error('Error al obtener tareas:', error);
+        this.dialog.open(FailureDialogComponent, {
+          data: {
+            message: 'Error getting tasks.'
+          }
+        });
       },
       complete: () => {
-        console.log('La carga de tareas ha finalizado');
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            message: 'Load tasks successfully.'
+          }
+        });
       }
     });
   }

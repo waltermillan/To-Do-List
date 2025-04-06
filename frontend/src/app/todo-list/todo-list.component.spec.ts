@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
 import { TodoListComponent } from './todo-list.component';
+import { TaskService } from '../services/task.service';
+import { FormsModule } from '@angular/forms'; // Add FormsModule
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
@@ -8,7 +10,9 @@ describe('TodoListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TodoListComponent]
+      imports: [FormsModule], // Import FormsModule
+      declarations: [TodoListComponent],
+      providers: [TaskService, provideHttpClient()]
     })
     .compileComponents();
 

@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Interfases
+namespace Core.Interfaces
 {
-    public interface IStateRepository : IGenericRepository<State>
+    public interface IUserRepository : IGenericRepository<User>
     {
+        Task<User> GetByUsrAsync(string usr);
     }
 }

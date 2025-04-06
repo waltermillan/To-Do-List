@@ -1,119 +1,115 @@
 <div class="todo-list">
-  <h1>Lista de Tareas</h1>
+  <h1>Task's List</h1>
 
   <div class="add-task">
     <input 
       [(ngModel)]="newTaskName" 
       type="text" 
-      placeholder="Ingrese una nueva tarea" 
+      placeholder="Enter a task" 
       required 
       #taskname="ngModel" />
-      
-      <img 
-        [src]="isRecognizing ? 'assets/images/microphone.svg' : 'assets/images/mute.svg'" 
-        alt="Micrófono" 
-        (click)="toggleRecognition()" 
-        class="mic-icon" />    
+
+    <img 
+      [src]="isRecognizing ? 'assets/images/microphone.svg' : 'assets/images/mute.svg'" 
+      alt="Microphone" 
+      (click)="toggleRecognition()" 
+      class="mic-icon" />    
 
     <input 
       [(ngModel)]="startDate" 
       type="datetime-local" 
-      placeholder="Fecha de inicio" 
-      style="width:50%" class="styled-date-input" />
+      placeholder="Start date" 
+      class="styled-date-input" />
 
     <input 
       [(ngModel)]="endDate" 
       type="datetime-local" 
-      placeholder="Fecha de fin" 
-      style="width:50%" class="styled-date-input" />
+      placeholder="End date" 
+      class="styled-date-input" />
 
     <button 
       #BtnAddTask 
       (click)="addTask()" 
-      class="btn btn-primary">Agregar tarea</button>
+      class="btn btn-primary">Add task</button>
   </div>
 
   <div *ngIf="tasks.length === 0" class="no-tasks-message">
-    No hay tareas disponibles
+    No tasks available
   </div>
 
-  <table *ngIf="tasks.length > 0" class="task-table">
-    <thead>
-      <tr>
-        <th>Nombre de la tarea</th>
-        <th>Inicio</th>
-        <th>Fin</th>
-        <th>Estado</th>
-        <th>Realizada</th>
-        <th colspan="4">Cambiar Estado tarea</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let task of tasks; let i = index" class="todo-item">
-
-        <td style="width: 60%;">{{ task.name }}</td>
-        <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
-        <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
-        <td style="width: 5%;">{{ getStateName(task.stateId) }}</td>
-
-        <td style="width: 5%;text-align: center;">
-          <input 
-            type="checkbox" 
-            [checked]="task.done" 
-            (change)="onCheckboxChange($event, task)" />
-        </td>
-
-        <td style="width: 5%;text-align: center;">
-          <button 
-            #BtnUpdateTaskToPending 
-            *ngIf="task.stateId !== 1" 
-            (click)="updateTaskState(1, task.id)" 
-            class="image-button">
-            <img 
-              src="assets/images/pending.svg" 
-              alt="Marcar tarea como pendiente" 
-              title="Marcar tarea como pendiente" />
-          </button>
-        </td>
-
-        <td style="width: 5%;text-align: center;">
-          <button 
-            #BtnUpdateTaskToComplete 
-            *ngIf="task.stateId !== 2" 
-            (click)="updateTaskState(2, task.id)" 
-            class="image-button">
-            <img 
-              src="assets/images/mark-as-complete.svg" 
-              alt="Marcar tarea como completada" 
-              title="Marcar tarea como completada" />
-          </button>
-        </td>
-
-        <td style="width: 5%;text-align: center;">
-          <button 
-            #BtnUpdateTaskToArchived 
-            *ngIf="task.stateId === 2" 
-            (click)="updateTaskState(3, task.id)" 
-            class="image-button">
-            <img 
-              src="assets/images/archived.svg" 
-              alt="Marcar tarea como archivada" 
-              title="Marcar tarea como archivada" />
-          </button>
-        </td>
-
-        <td style="width: 5%;text-align: center;">
-          <button 
-            #BtnDeleteTask 
-            (click)="deleteTask(task.id)" 
-            class="image-button">
-            <img 
-              src="assets/images/delete-task.svg" 
-              alt="Eliminar tarea" 
-              title="Eliminar tarea" />
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table *ngIf="tasks.length > 0" class="task-table">
+      <thead class="thead-blue">
+        <tr>
+          <th>Name</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>State</th>
+          <th>Finished</th>
+          <th colspan="4">Change task's state</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks; let i = index" class="todo-item">
+          <td style="width: 60%;">{{ task.name }}</td>
+          <td style="width: 5%;">{{ task.initialDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%;">{{ task.finishDate | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 5%;">{{ getStateName(task.stateId) }}</td>
+          <td style="width: 5%;text-align: center;">
+            <input 
+              type="checkbox" 
+              [checked]="task.done" 
+              (change)="onCheckboxChange($event, task)" />
+          </td>
+          <td style="width: 5%;text-align: center;">
+            <button 
+              #BtnUpdateTaskToPending 
+              *ngIf="task.stateId !== 1" 
+              (click)="updateTaskState(1, task.id)" 
+              class="image-button">
+              <img 
+                src="assets/images/pending.svg" 
+                alt="Set task as pendient" 
+                title="Set task as pendient" />
+            </button>
+          </td>
+          <td style="width: 5%;text-align: center;">
+            <button 
+              #BtnUpdateTaskToComplete 
+              *ngIf="task.stateId !== 2" 
+              (click)="updateTaskState(2, task.id)" 
+              class="image-button">
+              <img 
+                src="assets/images/mark-as-complete.svg" 
+                alt="Set task as completed" 
+                title="Set task as completed" />
+            </button>
+          </td>
+          <td style="width: 5%;text-align: center;">
+            <button 
+              #BtnUpdateTaskToArchived 
+              *ngIf="task.stateId === 2" 
+              (click)="updateTaskState(3, task.id)" 
+              class="image-button">
+              <img 
+                src="assets/images/archived.svg" 
+                alt="Set task as archived" 
+                title="Set task as archived" />
+            </button>
+          </td>
+          <td style="width: 5%;text-align: center;">
+            <button 
+              #BtnDeleteTask 
+              (click)="deleteTask(task.id)" 
+              class="image-button">
+              <img 
+                src="assets/images/delete-task.svg" 
+                alt="Delete task" 
+                title="Delete task" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

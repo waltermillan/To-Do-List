@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Interfases;
+using Core.Interfaces;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Xml.Linq;
@@ -17,10 +17,10 @@ public class TaskHistoryService
     public async Task<TaskHistory> GetTaskHistoryById(int id)
     {
         var taskHistory = await _taskHistoryRepository.GetByIdAsync(id);
-        if (taskHistory == null)
-        {
+
+        if (taskHistory is null)
             throw new KeyNotFoundException("TaskHistory not found");
-        }
+
         return taskHistory;
     }
 
@@ -33,7 +33,6 @@ public class TaskHistoryService
     {
         var taskHistory = Core.Factories.TaskHistoryFactory.CreateTaskHistory(id, taskId, stateId, changedDate);
 
-        // Ahora agregamos la tarea usando el repositorio
         _taskHistoryRepository.Add(taskHistory);
     }
 
@@ -44,21 +43,21 @@ public class TaskHistoryService
 
     public void UpdateTaskHistory(TaskHistory taskHistory)
     {
-        var existingState = _taskHistoryRepository.GetByIdAsync(taskHistory.Id).Result; // Sigue usando .Result
-        if (existingState == null)
-        {
+        var existingState = _taskHistoryRepository.GetByIdAsync(taskHistory.Id).Result;
+
+        if (existingState is null)
             throw new KeyNotFoundException("TaskHistory to update not found");
-        }
+
         _taskHistoryRepository.Update(taskHistory);
     }
 
     public void DeleteTaskHistory(TaskHistory taskHistory)
     {
         var existingTaskHistory = _taskHistoryRepository.GetByIdAsync(taskHistory.Id).Result;
-        if (existingTaskHistory == null)
-        {
+
+        if (existingTaskHistory is null)
             throw new KeyNotFoundException("TaskHistory to delete not found");
-        }
+
         _taskHistoryRepository.Remove(taskHistory);
     }
 }

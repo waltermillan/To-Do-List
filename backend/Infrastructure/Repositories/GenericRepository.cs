@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using Core.Entities;
+﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
-using Core.Interfases;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
 namespace Infrastructure.Repositories;
 
 public class GenericRepository<T>(TodoListContext context) : IGenericRepository<T> where T : BaseEntity

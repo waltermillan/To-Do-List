@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
 using Core.Entities;
-using Core.Interfases;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Metrics;
-using System.Threading.Tasks;
 
 namespace API.Controllers;
-[ApiController]
-[Route("api/tasksHistory")]
-public class TaskHistoryController : BaseApiController
+
+public class TasksHistoryController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILoggingService _loggingService;   
 
-    public TaskHistoryController(IUnitOfWork unitOfWork, IMapper mapper, ILoggingService loggingService)
+    public TasksHistoryController(IUnitOfWork unitOfWork, IMapper mapper, ILoggingService loggingService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -123,14 +120,14 @@ public class TaskHistoryController : BaseApiController
                 return NotFound();
 
             var taskHistory = await _unitOfWork.TasksHistory.GetByIdAsync(oTaskHistory.Id);
-            if (taskHistory == null)
+
+            if (taskHistory is null)
                 return NotFound();
 
             message = $"TaskHistory Updated | TaskHistory ID: {taskHistory.Id} TaskHistory TaskId (old): {taskHistory.TaskId} TaskHistory StateId (old): {taskHistory.StateId} TaskHistory Changed Date (old): {taskHistory.ChangedDate}\n" +
                 $"TaskHistory TaskId (new): {oTaskHistory.TaskId} TaskHistory StateId (new): {oTaskHistory.StateId} TaskHistory Changed Date (new): {oTaskHistory.ChangedDate}";
 
-            // Utilizamos AutoMapper para mapear las propiedades de oTask a task
-            _mapper.Map(oTaskHistory, taskHistory);  // Este paso asigna automáticamente las propiedades
+            _mapper.Map(oTaskHistory, taskHistory);
 
             _unitOfWork.TasksHistory.Update(taskHistory);
             await _unitOfWork.SaveAsync();
@@ -157,7 +154,8 @@ public class TaskHistoryController : BaseApiController
         try
         {
             var taskHistory = await _unitOfWork.TasksHistory.GetByIdAsync(id);
-            if (taskHistory == null)
+
+            if (taskHistory is null)
                 return NotFound();
 
             _unitOfWork.TasksHistory.Remove(taskHistory);

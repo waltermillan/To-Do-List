@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Interfases;
+using Core.Interfaces;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Xml.Linq;
@@ -18,10 +18,10 @@ public class TaskService
     public async Task<Core.Entities.Task> GetTaskById(int id)
     {
         var task = await _taskRepository.GetByIdAsync(id);
-        if (task == null)
-        {
+
+        if (task is null)
             throw new KeyNotFoundException("Task not found");
-        }
+
         return task;
     }
 
@@ -32,10 +32,8 @@ public class TaskService
 
     public void AddTask(string name, int stateId, DateTime initialDate, DateTime finishDate, bool? done = null)
     {
-        // Usamos el TaskFactory para crear la tarea
         var task = Core.Factories.TaskFactory.CreateTask(name, stateId, initialDate, finishDate, done);
 
-        // Ahora agregamos la tarea usando el repositorio
         _taskRepository.Add(task);
     }
 
@@ -47,20 +45,20 @@ public class TaskService
     public void UpdateTask(Core.Entities.Task task)
     {
         var existingTask = _taskRepository.GetByIdAsync(task.Id).Result;
-        if (existingTask == null)
-        {
+
+        if (existingTask is null)
             throw new KeyNotFoundException("Task to update not found");
-        }
+
         _taskRepository.Update(task);
     }
 
     public void DeleteTask(Core.Entities.Task task)
     {
         var existingTask = _taskRepository.GetByIdAsync(task.Id).Result;
-        if (existingTask == null)
-        {
+
+        if (existingTask is null)
             throw new KeyNotFoundException("Task to delete not found");
-        }
+
         _taskRepository.Remove(task);
     }
 }

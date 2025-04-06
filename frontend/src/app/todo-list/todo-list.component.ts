@@ -3,6 +3,10 @@ import { TaskService } from '../services/task.service';
 import { HistoryTaskService } from '../services/history-task.service';
 import { Task } from '../models/task.model';
 
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent } from '../modals/success-dialog/success-dialog.component';
+import { FailureDialogComponent } from '../modals/failure-dialog/failure-dialog.component';
+
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
@@ -21,7 +25,8 @@ export class TodoListComponent implements OnInit {
 
   constructor(
     private taskService: TaskService, 
-    private historyTaskService: HistoryTaskService) {   
+    private historyTaskService: HistoryTaskService,
+    private dialog: MatDialog) {   
   }
 
   ngOnInit(): void {
@@ -30,29 +35,41 @@ export class TodoListComponent implements OnInit {
   }
 
   loadTasks(): void {
-    this.taskService.getAllTasks().subscribe(
-      (data) => {
+    this.taskService.getAll().subscribe({
+      next: (data) => {
         this.tasks = data.filter(t => t.stateId == 1 || t.stateId == 2);
       },
-      (error) => {
-        console.error('Error al obtener tareas:', error);
+      error: (error) => {
+        console.error('Error getting tasks:', error);
       }
-    );
+    });
   }
 
   addTask(): void {
     if (!this.newTaskName.trim()) {
-      alert('Por favor ingresa un nombre para la tarea.');
+      this.dialog.open(FailureDialogComponent, {
+        data: {
+          message: 'Please enter a task\'s name.'
+        }
+      });
       return;
     }
 
     if (!this.startDate || !this.endDate) {
-      alert('Por favor ingresa las fechas de inicio y fin.');
+      this.dialog.open(FailureDialogComponent, {
+        data: {
+          message: 'Please enter start and end dates.'
+        }
+      });
       return;
     }
 
     if (new Date(this.startDate) > new Date(this.endDate)) {
-      alert('La fecha de fin no puede ser anterior a la fecha de inicio.');
+      this.dialog.open(FailureDialogComponent, {
+        data: {
+          message: 'The end date cannot be earlier than the start date.'
+        }
+      });
       return;
     }
 
@@ -65,30 +82,55 @@ export class TodoListComponent implements OnInit {
         finishDate: this.endDate
       };
 
-      this.taskService.addTask(newTask).subscribe({
+      this.taskService.add(newTask).subscribe({
         next: (data) => {
-          console.log('Tarea agregada con éxito', data);
+          console.log('Task added successfully', data);
           this.loadTasks();  
           this.newTaskName = ''; 
           this.startDate = '';
           this.endDate = ''; 
-          this.done = false
+          this.done = false;
+
+          this.dialog.open(SuccessDialogComponent, {
+            data: {
+              message: 'Task added successfully'
+            }
+          });
+          
         },
         error: (error) => {
-          console.error('Error al agregar tarea:', error);
+          console.error('Error addedd task:', error);
+
+          this.dialog.open(FailureDialogComponent, {
+            data: {
+              message: 'Error addedd task'
+            }
+          });
         }
       });
     }
   }
 
   deleteTask(taskId: number): void {
-    this.taskService.deleteTask(taskId).subscribe({
+    this.taskService.delete(taskId).subscribe({
       next: (data) => {
-        console.log('Tarea eliminada con éxito', data);
+        console.log('Task deleted successfully', data);
         this.loadTasks();
+
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            message: 'Task deleted successfully'
+          }
+        });
       },
       error: (error) => {
-        console.error('Error al eliminar tarea:', error);
+        console.error('Error deleting task:', error);
+
+        this.dialog.open(FailureDialogComponent, {
+          data: {
+            message: 'Error deleting task'
+          }
+        });
       }
     });
   }
@@ -108,8 +150,14 @@ export class TodoListComponent implements OnInit {
 
       this.taskService.updateTask(updatedTask, updatedTask.id).subscribe({
         next: (data) => {
-          console.log('Tarea actualizada con éxito', data);
+          console.log('Task updated successfully', data);
           this.loadTasks();
+
+          this.dialog.open(SuccessDialogComponent, {
+            data: {
+              message: 'Task updated successfully'
+            }
+          });
 
           if (newStateId === 3) {
             const taskHistory = {
@@ -119,12 +167,25 @@ export class TodoListComponent implements OnInit {
               changedDate: new Date().toISOString(),
             };
 
-            this.historyTaskService.archiveTask(taskHistory).subscribe({
+            this.historyTaskService.add(taskHistory).subscribe({
               next: (historyResponse) => {
-                console.log('Tarea archivada con éxito en TaskHistory', historyResponse);
+                console.log('Task archiving successfully in Task-History', historyResponse);
+
+                this.dialog.open(SuccessDialogComponent, {
+                  data: {
+                    message: 'Task archiving successfully in Task-History'
+                  }
+                });
+
               },
               error: (error) => {
-                console.error('Error al archivar tarea en TaskHistory:', error);
+                console.error('Error archiving task in Task-History:', error);
+
+                this.dialog.open(FailureDialogComponent, {
+                  data: {
+                    message: 'Error archiving task in Task-History'
+                  }
+                });
               }
             });
           }
@@ -139,13 +200,13 @@ export class TodoListComponent implements OnInit {
   getStateName(stateId: number): string {
     switch (stateId) {
       case 1:
-        return 'Pendiente';
+        return 'Pending';
       case 2:
-        return 'Completada';
+        return 'Completed';
       case 3:
-        return 'Archivada';
+        return 'Archived';
       default:
-        return 'Desconocido';
+        return 'Unknown';
     }
   }
 
@@ -157,11 +218,24 @@ export class TodoListComponent implements OnInit {
 
     this.taskService.updateTask(updatedTask, updatedTask.id).subscribe({
       next: (response) => {
-        console.log('Tarea actualizada con éxito', response);
+        console.log('Task updated successfully', response);
+
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            message: 'Task updated successfully'
+          }
+        });
+
         this.loadTasks();
       },
       error: (error) => {
-        console.error('Error al actualizar tarea:', error);
+        console.error('Error updating task:', error);
+
+        this.dialog.open(SuccessDialogComponent, {
+          data: {
+            message: 'Error updating task'
+          }
+        });
       }
     });
   }

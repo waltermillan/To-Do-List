@@ -1,32 +1,46 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; 
-import { RouterModule, Routes } from '@angular/router';
-import { provideHttpClient, withInterceptorsFromDi, withFetch  } from '@angular/common/http'; 
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { HomeComponent } from './home/home.component';
 import { ArchivedTaskComponent } from './archived-task/archived-task.component';
+import { LoginComponent } from './login/login.component';
+import { SuccessDialogComponent } from './modals/success-dialog/success-dialog.component';
+import { FailureDialogComponent } from './modals/failure-dialog/failure-dialog.component';
 
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent }, 
-  { path: 'todo', component: TodoListComponent },
-  { path: 'archived', component: ArchivedTaskComponent },
-];
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
-    ArchivedTaskComponent
+    ArchivedTaskComponent,
+    HomeComponent,
+    LoginComponent,
+    SuccessDialogComponent,
+    FailureDialogComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi(), withFetch())
