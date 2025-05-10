@@ -1,44 +1,126 @@
-# To-Do-List Project
-A to-do list is a time management tool used to list all tasks or activities that need to be completed. It serves as a reminder of what needs to be completed, allowing users to organize their work or personal lives more effectively.
+# 📝 To-DoList Project
 
-## Objective:
+A to-do list is a time management tool used to list all tasks or activities that need to be completed. It serves as a reminder of what needs to be done, allowing users to organize their work or personal lives more effectively.
 
-Practice .NET (C#) / SQL Server and Angular (Typescript) / Design Patterns / Onion Architecture.
-Familiarize myself with the use of forms in Angular.
-Use an API to translate speech to text: Specifically the Web Speech API. This API allows browsers to perform speech recognition tasks, such as transcribing what is being said in real time.
+---
 
-## Features.
+## 📅 Changelog
 
-BACKEND:
-- Onion architecture.
-- SOLID principles.
-- Use of Entity Framework.
-- Pattern design: BaseEntity, Repository (To access the task DB), UnitOfWork, Singleton (To manage the backend configuration) and Factory (To create the task instances).
-- Adds HashPassword class to encrypt DB access passwords.
-- Add Architecture diagram to explain how the project works.
-  
-FRONTEND:
-- Developed with Angular 18.0.2/18.2.14
-- Module oriented.
-- Creation of services and models.
-- Web Speech API invocation is added (which allows to incorporate voice data to web applications?
-- Unit testing: using frameworks such as Jasmine 4.6.1 and Karma 6.4.4 as test runner.
-- Use of popup library: @angular/material: 18.2.14 and @angular/cdk: 18.2.14
+- **06/04/2025**:
+  - **Backend/Frontend/Database**: Added entity-relationship diagram and Users table. Backend: Cleaned up code, added User entity. Frontend: Added login module, improved UI rendering. Executed unit tests: Ran `ng test` to execute unit tests defined in the `*.spec.ts` files, using frameworks like Jasmine and the Karma test runner.
+- **14/03/2025**:
+  - **Backend/Frontend/Database**: Corrected database table names to plural form, cleaned up frontend code.
+- **27/02/2025**:
+  - **Backend/Frontend**: Removed comments, improved frontend code, fixed various bugs.
+- **26/02/2025**:
+  - **Frontend**: Fixed API to follow RESTful conventions and ensured that routes use proper pluralization. Corrected frontend URL invocations.
+- **03/02/2025**:
+  - **Frontend**: Updated frontend, added audio listening functionality and speech-to-text conversion.
+- **02/02/2025**:
+  - **Backend**: Implemented Factory design pattern to create task instances. Added Serilog for logging in ASP.NET Core applications.
+  - **Backend**: Added `done` field to Task model.
+- **31/01/2025**:
+  - **Backend**: Added unit tests.
+- **30/01/2025**:
+- **29/01/2025**: Initial release — Backend, Frontend, and Database.
 
-DB:
-- Entity-Relationship Diagram Written with SQL Server.
-- Tables (DDLs) and Data (DMLs).
+---
 
-## Installation
+## 🎯 Objective
 
-Start Date: 01/28/2025
-End Date: 03/02/2025
+Practice using .NET (C#) / SQL Server and Angular (TypeScript) / Design Patterns / Onion Architecture. Gain familiarity with Angular forms. Use an API to convert speech to text — specifically the Web Speech API, which enables browsers to perform real-time speech recognition.
 
-Improvements: 06/04/2025
-	- Add login module.
-	- Use of Jasmine and Karma for unit test from Frontend.
+### Technologies:
+
+- **.NET (C#)** and **SQL Server**
+- **Angular (TypeScript)**
+- **Design Patterns**
+- **Onion Architecture**
+
+---
+
+## 🚀 Features
+
+### 🔧 Backend
+
+Implements design patterns: BaseEntity, Repository, UnitOfWork, and Factory (for task instance creation).
+
+- Structured using **Onion Architecture**
+- Utilizes several **Design Patterns**:
+  - `BaseEntity`
+  - `UnitOfWork`
+  - `Repository` (for database access)
+  - `DTO` (Data Transfer Object)
+  - `Singleton` (for backend configuration)
+  - `Factory` (for task instance creation)
+
+- **Key Libraries**:
+  - **Encryption**:
+    - `System.Security.Cryptography` (AES-256)
+  - **Logging**:
+    - `Serilog`
+    - `Serilog.Extensions.Logging`
+    - `Serilog.Sinks.File`
+  - **ORM**:
+    - `Microsoft.EntityFrameworkCore.SqlServer`
+    - `Microsoft.EntityFrameworkCore.Tools`
+  - **UI**:
+    - `@angular/material` 18.2.14
+    - `@angular/cdk` 18.2.14
+
+---
+
+### 💻 Frontend
+
+- Built with **Angular 18.0.2 / 18.2.14**
+- Features:
+  - Reactive Forms
+  - `AuthService` and HTTP Interceptors
+  - Modular architecture
+  - Creation of services and models
+  - Custom Pipes and Shared Modules
+  - Angular Material for UI components and popups
+
+---
+
+### 🗄️ Database
+
+- Uses **MariaDB**, deployed via **Docker Desktop**
+- Includes:
+  - Entity-Relationship Diagram written for SQL Server (ERD)
+  - Sample data insertion scripts (`.sql`)
+  - **DDL scripts** (for schema creation)
+  - **DML scripts** (for sample data insertion)
+
+---
+
+## 🧪 Installation
+
+### ✅ Prerequisites
+
+Ensure the following tools are installed on your machine:
+
+- [.NET SDK 9.0.200](https://dotnet.microsoft.com/)
+- [SQL Express](https://www.microsoft.com/es-es/sql-server/sql-server-downloads)
+- [Node.js + npm](https://nodejs.org/) (for the frontend)
+- [Postman 11.44.3](https://www.postman.com/downloads/)
+
+---
+
+### 🔧 Setup Steps
 
 1. Clone the repository:
+    ```bash
+    git clone https://github.com/waltermillan/To-Do-List.git
+    ```
 
-git clone [https://github.com/waltermillan/To-Do-List.git](https://github.com/waltermillan/To-Do-List.git)
-Youtube: https://youtu.be/478V9e3bG60
+2. Follow the setup video guide:
+    - [Version 1 - Display Version](https://youtu.be/478V9e3bG60)
+
+3. Complete the remaining setup steps as described in the project documentation.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
